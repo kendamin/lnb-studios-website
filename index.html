@@ -1,0 +1,876 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>LNB Studios · Davao City</title>
+<meta name="description" content="LNB Studios, Davao City: brand films by LNB Media, wedding films by LNB Films, portraits at LNB Studio, and WeOutHerePH community nights.">
+<meta name="theme-color" content="#0E0E0D">
+<meta property="og:title" content="LNB Studios · Davao City">
+<meta property="og:description" content="Brand films, wedding films, studio portraits and community nights. Davao City.">
+<meta property="og:image" content="assets/img/films-vere.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230E0E0D'/%3E%3Crect x='7' y='17' width='50' height='30' fill='none' stroke='%23EDEBE6' stroke-width='3'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Arial Narrow,Arial' font-weight='900' font-size='19' fill='%23EDEBE6'%3ELNB%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Geist:wght@400..600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/img/films-triptych.webp" fetchpriority="high">
+<style>
+:root{
+  --canvas:#0E0E0D; --surface:#171715; --line:#2C2B28;
+  --ink:#EDEBE6; --ink-soft:#A39F96;
+  --accent:#FF4A3D; --accent-ink:#120B0A;
+  --paper:#ECE9E2; --paper-ink:#151513; --paper-soft:#55524B; --accent-deep:#C42519;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --text:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--s7:48px;--s8:64px;--s9:96px;--s10:128px;
+  --gutter:clamp(16px,4vw,56px);
+  --section:clamp(80px,12vw,168px);
+  --r-out:14px; --pad:8px; --r-in:calc(var(--r-out) - var(--pad));
+  --measure:60ch;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--canvas);color:var(--ink);font:400 17px/1.62 var(--text);letter-spacing:.005em;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.98;letter-spacing:-.02em;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{padding-inline:var(--gutter);max-width:1440px;margin-inline:auto}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--canvas);padding:10px 14px;border-radius:8px;font-weight:600}
+.skip:focus{top:12px}
+
+/* ---------- buttons (one shape, one icon set) ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font:600 15px/1 var(--text);text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s,transform .2s var(--ease)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-main{background:var(--accent);color:var(--accent-ink)}
+.btn-main:hover{background:#FF6A5F}
+.btn-line{border-color:#4A4843;color:var(--ink);background:transparent}
+.btn-line:hover{border-color:var(--ink)}
+.btn:active{transform:scale(.97)}
+
+/* ---------- viewfinder chrome ---------- */
+.vf{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;gap:var(--s5);padding:12px var(--gutter);pointer-events:none}
+.vf>*{pointer-events:auto}
+.vf{transition:background-color .3s,border-color .3s;border-bottom:1px solid transparent}
+.vf.is-solid{background:rgba(14,14,13,.94);border-bottom-color:#26251F;pointer-events:auto}
+@supports (backdrop-filter:blur(1px)){.vf.is-solid{background:rgba(14,14,13,.8);backdrop-filter:blur(12px)}}
+.vf-mark,.vf-rec,.vf-formats{color:#EDEBE6}
+.vf-mark{display:flex;align-items:center;gap:8px;text-decoration:none;font:800 15px/1 var(--display);letter-spacing:.02em;font-stretch:80%;text-transform:uppercase}
+.vf-mark .box{border:1.5px solid currentColor;padding:4px 5px 3px;font-stretch:72%;letter-spacing:.04em}
+.vf-rec{display:flex;align-items:center;gap:8px;font:500 12px/1 var(--text);letter-spacing:.08em;font-variant-numeric:tabular-nums;margin:0}
+.vf-rec i{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.55;transition:opacity .25s}
+.vf-rec.is-rolling i{opacity:1}
+.vf-formats{display:none;gap:var(--s5);margin-left:auto}
+.vf-formats a{display:flex;align-items:center;gap:8px;text-decoration:none;font:500 13px/1 var(--text);padding:10px 2px;opacity:.72;transition:opacity .2s}
+.vf-formats a:hover,.vf-formats a[aria-current="true"]{opacity:1}
+.vf-formats b{display:block;border:1.5px solid currentColor;height:13px;flex:none}
+.vf-cta{margin-left:auto;min-height:40px;padding:0 16px;font-size:14px}
+.vf-corners{position:fixed;inset:10px;z-index:49;pointer-events:none;mix-blend-mode:difference}
+.vf-corners i{position:absolute;width:20px;height:20px;border:0 solid #8F8B83}
+.vf-corners i:nth-child(1){left:0;top:0;border-width:1.5px 0 0 1.5px}
+.vf-corners i:nth-child(2){right:0;top:0;border-width:1.5px 1.5px 0 0}
+.vf-corners i:nth-child(3){left:0;bottom:0;border-width:0 0 1.5px 1.5px}
+.vf-corners i:nth-child(4){right:0;bottom:0;border-width:0 1.5px 1.5px 0}
+@media (min-width:1000px){
+  .vf-formats{display:flex}
+  .vf-cta{margin-left:var(--s3)}
+}
+.vf-cta{white-space:nowrap}
+@media (max-width:420px){.vf-rec .lbl{display:none}.vf{gap:var(--s3)}.vf-cta{padding:0 14px;font-size:13px}}
+@media (max-width:360px){.vf-rec{display:none}}
+
+/* ---------- hero (layered: plate, word, card, chrome) ---------- */
+.hero{position:relative;min-height:100svh;display:grid;align-content:end;padding:96px var(--gutter) var(--s8);overflow:clip;isolation:isolate}
+.hero-plate{position:absolute;inset:-10% -5%;z-index:-2;background:
+  radial-gradient(60% 50% at 70% 35%,#2A2925 0%,transparent 70%),
+  radial-gradient(40% 40% at 15% 85%,#1D1C19 0%,transparent 70%),var(--canvas)}
+.hero-word{position:absolute;z-index:-1;left:calc(var(--gutter) - .04em);top:clamp(80px,11vh,140px);margin:0;font:900 clamp(150px,36vw,560px)/.8 var(--display);font-stretch:68%;letter-spacing:-.035em;color:var(--ink);will-change:transform}
+.hero-word small{display:block;font-size:.155em;font-weight:700;font-stretch:100%;letter-spacing:-.01em;line-height:1;margin:.28em 0 0 .06em;color:var(--ink-soft)}
+.hero-card{position:absolute;z-index:0;left:min(49vw,calc(100vw - var(--gutter) - 360px));top:clamp(170px,30vh,300px);width:clamp(170px,23vw,340px);margin:0;will-change:transform}
+.hero-card .frame{background:#000;padding:var(--pad);border-radius:var(--r-out);box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+.hero-card img{border-radius:var(--r-in);width:100%;aspect-ratio:570/711;object-fit:cover}
+.hero-card figcaption{font-size:12px;line-height:1.45;color:var(--ink-soft);margin-top:10px;max-width:30ch}
+.hero-copy{position:relative;z-index:1;display:grid;gap:var(--s5);max-width:min(600px,42vw)}
+@media (max-width:760px){.hero-copy{max-width:none}}
+.hero-copy .lead{font-size:clamp(18px,1.6vw,22px);line-height:1.5;color:var(--ink)}
+.hero-copy .lead b{font-weight:600}
+.hero-actions{display:flex;flex-wrap:wrap;gap:var(--s3)}
+@media (max-width:760px){
+  .hero{padding-bottom:var(--s7)}
+  .hero-word{font-size:44vw;top:84px}
+  .hero-card{left:auto;top:calc(84px + 22vw);right:var(--gutter);width:40vw}
+  .hero-card figcaption{display:none}
+  .hero{min-height:0;align-content:start;padding-top:calc(84px + 22vw + 50vw + 40px)}
+}
+
+/* ---------- section scaffolding ---------- */
+.chapter{padding-block:var(--section)}
+.chapter-head{display:grid;gap:var(--s5);margin-bottom:var(--s8)}
+.chapter-head h2{font-size:clamp(44px,7vw,104px);font-stretch:78%}
+.chapter-head p{max-width:var(--measure);color:var(--ink-soft);font-size:18px}
+.kicker{font:600 13px/1 var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);display:flex;align-items:center;gap:10px}
+.kicker b{display:inline-block;border:1.5px solid currentColor;height:14px}
+@media (min-width:1000px){.chapter-head.split{grid-template-columns:1.1fr 1fr;align-items:end;column-gap:var(--s8)}}
+
+/* ---------- the gate (signature: frame changes format per brand) ---------- */
+.gate{position:relative;background:var(--canvas)}
+.gate-intro{padding:var(--s10) var(--gutter) var(--s7);max-width:1440px;margin-inline:auto}
+.gate-intro h2{font-size:clamp(40px,6vw,88px);font-stretch:78%;max-width:14ch}
+.gate-list{list-style:none;margin:0;padding:0 var(--gutter) var(--section);display:grid;gap:var(--s9);max-width:1440px;margin-inline:auto}
+.gate-item{display:grid;gap:var(--s5)}
+.gate-item figure{margin:0;background:#000;overflow:hidden}
+.gate-item figure img{width:100%;height:100%;object-fit:cover}
+.gate-item .ratio{font:500 13px/1 var(--text);letter-spacing:.08em;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.gate-item h3{font-size:clamp(40px,6vw,84px);font-stretch:72%;margin-top:8px}
+.gate-item p{color:var(--ink-soft);max-width:44ch;margin-top:12px}
+.gate-item .go{display:inline-flex;margin-top:var(--s4);font-weight:600;text-underline-offset:5px}
+.gate-item[data-fmt="media"] figure{aspect-ratio:9/16;max-width:360px}
+.gate-item[data-fmt="films"] figure{aspect-ratio:2.39/1}
+.gate-item[data-fmt="studio"] figure{aspect-ratio:4/5;max-width:520px}
+.gate-item[data-fmt="woh"] figure{aspect-ratio:4/3;max-width:760px}
+@media (min-width:900px){
+  .gate:not(.is-live) .gate-item{grid-template-columns:1fr 1.5fr;align-items:center;column-gap:var(--s8)}
+  .gate:not(.is-live) .gate-item figure{order:2;justify-self:center;width:100%}
+  .gate:not(.is-live) .gate-item[data-fmt="media"] figure{width:min(360px,100%)}
+}
+/* live, pinned version (added by script when motion is allowed) */
+.gate.is-live .gate-track{height:calc(var(--gate-steps,4) * 105svh)}
+.gate.is-live .gate-stage{position:sticky;top:0;height:100svh;overflow:clip}
+.gate.is-live .gate-list{position:absolute;inset:0;padding:0;display:block;max-width:none}
+.gate.is-live .gate-item{position:absolute;inset:0;display:block}
+.gate.is-live .gate-item figure{position:absolute;max-width:none;aspect-ratio:auto;background:none;opacity:0;transition:none}
+.gate.is-live .gate-item .cap{position:absolute;opacity:0;translate:0 18px;transition:opacity .45s var(--ease),translate .45s var(--ease);pointer-events:none}
+.gate.is-live .gate-item.is-on .cap{opacity:1;translate:0 0;pointer-events:auto}
+.gate-media{position:absolute;background:#000}
+.gate-ticks{position:absolute;inset:auto;pointer-events:none}
+.gate-ticks i{position:absolute;width:22px;height:22px;border:0 solid var(--ink)}
+.gate-ticks i:nth-child(1){left:-10px;top:-10px;border-width:2px 0 0 2px}
+.gate-ticks i:nth-child(2){right:-10px;top:-10px;border-width:2px 2px 0 0}
+.gate-ticks i:nth-child(3){left:-10px;bottom:-10px;border-width:0 0 2px 2px}
+.gate-ticks i:nth-child(4){right:-10px;bottom:-10px;border-width:0 2px 2px 0}
+.gate-readout{position:absolute;font:500 13px/1 var(--text);letter-spacing:.08em;color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
+.gate-readout b{color:var(--accent);font-weight:600}
+.gate-hud{display:none}
+.gate.is-live .gate-hud{display:block}
+.gate.is-live .gate-intro{position:absolute;z-index:2;top:0;left:0;right:0;padding-top:88px;pointer-events:none;transition:opacity .4s}
+.gate.is-live .gate-intro h2{font-size:clamp(26px,3vw,40px);max-width:22ch}
+.gate.is-live.past-intro .gate-intro{opacity:0}
+
+/* ---------- media: showreel + snap rail ---------- */
+.reel-feature{position:relative;display:block;width:100%;padding:0;border:0;background:#000;border-radius:var(--r-out);overflow:hidden;cursor:pointer;color:var(--ink);text-align:left;margin-bottom:var(--s9)}
+.reel-feature img{width:100%;aspect-ratio:16/9;object-fit:cover;opacity:.78;transition:opacity .3s,scale .6s var(--ease)}
+.reel-feature:hover img{opacity:.92;scale:1.015}
+.reel-feature .play{position:absolute;left:var(--gutter);bottom:clamp(20px,4vw,48px);display:flex;align-items:center;gap:var(--s4)}
+.play-dot{width:clamp(56px,7vw,88px);aspect-ratio:1;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.play-dot svg{width:38%;height:38%;margin-left:8%}
+.reel-feature strong{display:block;font:800 clamp(28px,4.4vw,64px)/.95 var(--display);font-stretch:74%;letter-spacing:-.02em;text-shadow:0 2px 18px rgba(0,0,0,.45)}
+.reel-feature small{display:block;font-size:14px;color:#D9D6CF;margin-top:6px}
+.rail-head{display:flex;align-items:end;justify-content:space-between;gap:var(--s5);margin-bottom:var(--s5)}
+.rail-head h3{font-size:clamp(26px,3vw,40px);font-stretch:80%}
+.rail-btns{display:none;gap:var(--s2)}
+.rail-btns button{width:44px;height:44px;border-radius:50%;border:1px solid #4A4843;background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.rail-btns button:hover{border-color:var(--ink)}
+.rail-btns svg{width:18px;height:18px}
+@media (hover:hover) and (min-width:760px){.rail-btns{display:flex}}
+.rail{list-style:none;margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter) var(--s4);display:grid;grid-auto-flow:column;grid-auto-columns:min(78vw,420px);gap:var(--s4);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);scrollbar-width:thin;scrollbar-color:#3A3935 transparent;overscroll-behavior-x:contain}
+.rail>li{scroll-snap-align:start}
+.film{display:grid;gap:var(--s3);width:100%;padding:var(--pad);border:1px solid var(--line);border-radius:var(--r-out);background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border-color .2s}
+.film:hover{border-color:#55534D}
+.film .thumb{position:relative;border-radius:var(--r-in);overflow:hidden;background:#000}
+.film .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.film .thumb::after{content:"";position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l11-6.5z' fill='%23120B0A'/%3E%3C/svg%3E") 55% 50%/15px no-repeat}
+.film .meta{padding:2px 6px 8px}
+.film .meta strong{display:block;font-weight:600;font-size:16px;line-height:1.3}
+.film .meta span{font-size:14px;color:var(--ink-soft)}
+.clients{display:grid;gap:var(--s5);margin-top:var(--s9);padding-top:var(--s6);border-top:1px solid var(--line)}
+@media (min-width:1000px){.clients{grid-template-columns:1fr 2fr;column-gap:var(--s8)}}
+.clients h3{font-size:22px;font-stretch:90%;font-family:var(--text);font-weight:600;letter-spacing:0}
+.clients ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 0;font:700 clamp(22px,2.6vw,34px)/1.25 var(--display);font-stretch:78%;letter-spacing:-.01em}
+.clients li:not(:last-child)::after{content:"/";color:#4F4D47;margin:0 .45em;font-weight:400}
+.clients .note{grid-column:1/-1;color:var(--ink-soft);font-size:15px;max-width:var(--measure)}
+.services{display:flex;flex-wrap:wrap;gap:var(--s2);list-style:none;margin:var(--s5) 0 0;padding:0}
+.services li{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:14px;color:var(--ink)}
+
+/* ---------- films: letterbox wipe + end credits ---------- */
+.films{background:#090908}
+.scope{position:relative;margin-inline:calc(var(--gutter) * -1)}
+.scope img{width:100%;aspect-ratio:2.39/1;object-fit:cover}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()) and (animation-range:entry){
+    .scope img{animation:letterbox linear both;animation-timeline:view();animation-range:entry 0% cover 45%}
+    @keyframes letterbox{from{clip-path:inset(50% 0 50% 0)}to{clip-path:inset(0 0 0 0)}}
+  }
+}
+.scope figcaption{padding:var(--s3) var(--gutter) 0;font-size:13px;color:var(--ink-soft)}
+.films-grid{display:grid;gap:var(--s8);margin-top:var(--s9)}
+@media (min-width:900px){.films-grid{grid-template-columns:5fr 6fr;align-items:start;column-gap:var(--s9)}}
+.films-grid figure{margin:0}
+.films-grid figure img{width:100%;border-radius:4px}
+.films-grid figcaption{font-size:13px;color:var(--ink-soft);margin-top:10px}
+.what{display:grid;gap:var(--s6)}
+.what dl{margin:0;display:grid;gap:var(--s5)}
+.what dt{font:800 26px/1.05 var(--display);font-stretch:82%}
+.what dd{margin:6px 0 0;color:var(--ink-soft);max-width:48ch}
+.credits{margin-top:var(--s9);text-align:center;display:grid;gap:var(--s6)}
+.credits h3{font:600 13px/1 var(--text);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
+.credits ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--s4)}
+.credits li{font:700 clamp(24px,3.2vw,44px)/1.1 var(--display);font-stretch:74%;letter-spacing:-.01em}
+.credits li span{display:block;font:400 14px/1.5 var(--text);letter-spacing:.02em;color:var(--ink-soft);margin-top:4px}
+.credits .end{font-size:15px;color:var(--ink-soft);max-width:46ch;margin-inline:auto}
+
+/* ---------- studio: hard cut to paper ---------- */
+.studio{background:var(--paper);color:var(--paper-ink);--ink-soft:var(--paper-soft);--line:#CFCBC1;color-scheme:light}
+.studio .kicker{color:var(--paper-soft)}
+.studio .btn-main{background:var(--accent-deep);color:#fff}
+.studio .btn-main:hover{background:#A81E14}
+.studio .btn-line{border-color:#9C978C;color:var(--paper-ink)}
+.studio :focus-visible{outline-color:var(--accent-deep)}
+.xmas{display:grid;gap:var(--s5);border:1.5px solid var(--paper-ink);border-radius:var(--r-out);padding:clamp(20px,3vw,36px);margin-bottom:var(--s9)}
+@media (min-width:900px){.xmas{grid-template-columns:auto 1fr auto;align-items:center;column-gap:var(--s7)}}
+.xmas h3{font-size:clamp(30px,3.6vw,52px);font-stretch:76%}
+.xmas .when{font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent-deep)}
+.xmas p{color:var(--paper-soft);max-width:52ch}
+.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3);align-items:end}
+.strip figure{margin:0}
+.strip img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px;background:#d6d2c8}
+.strip figure:nth-child(2) img{aspect-ratio:3/4.4}
+.strip figcaption{font-size:13px;color:var(--paper-soft);margin-top:10px;line-height:1.4}
+@media (max-width:640px){
+  .strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68vw;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scroll-padding-inline:var(--gutter)}
+  .strip figure{scroll-snap-align:start}
+}
+
+/* ---------- we out here: poster wall ---------- */
+.woh{background:var(--canvas);overflow:clip}
+.wall{display:grid;gap:var(--s5);grid-template-columns:repeat(2,minmax(0,1fr))}
+.wall figure{margin:0}
+.wall img{width:100%;border-radius:4px;box-shadow:0 24px 50px -24px rgba(0,0,0,.9)}
+.wall figcaption{font-size:13px;color:var(--ink-soft);margin-top:10px}
+.wall .booth{grid-column:1/-1}
+.wall .booth img{aspect-ratio:16/9;object-fit:cover}
+@media (min-width:900px){
+  .wall{grid-template-columns:1fr 1fr 1.6fr;align-items:center;gap:var(--s7)}
+  .wall .booth{grid-column:auto}
+}
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()) and (animation-range:entry){
+    .wall .tilt{animation:straighten linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
+    .wall .tilt:nth-child(1){--rot:-7deg}
+    .wall .tilt:nth-child(2){--rot:6deg}
+    .wall .tilt:nth-child(3){--rot:-3deg}
+    @keyframes straighten{from{rotate:var(--rot);translate:0 60px}to{rotate:0deg;translate:0 0}}
+  }
+}
+.venues{margin-top:var(--s8);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);align-items:baseline}
+.venues strong{font:800 clamp(30px,4.6vw,68px)/1 var(--display);font-stretch:70%;letter-spacing:-.02em}
+.venues span{color:#56544E;font-size:clamp(30px,4.6vw,68px);line-height:1;font-family:var(--display)}
+
+/* ---------- filmmaker ---------- */
+.pitt{border-top:1px solid var(--line)}
+.pitt-grid{display:grid;gap:var(--s6)}
+@media (min-width:900px){.pitt-grid{grid-template-columns:1fr 1.3fr;column-gap:var(--s9);align-items:start}}
+.pitt h2{font-size:clamp(48px,7vw,108px);font-stretch:72%}
+.pitt p{font-size:clamp(18px,1.5vw,21px);max-width:54ch}
+.pitt p+p{margin-top:var(--s4);color:var(--ink-soft);font-size:17px}
+.pitt .tag{display:inline-block;margin-top:var(--s5);font-weight:600;text-underline-offset:5px}
+
+/* ---------- close: the slate ---------- */
+.close{padding-block:var(--section) calc(var(--section) * .7);background:var(--canvas)}
+.close h2{font-size:clamp(56px,10vw,160px);font-stretch:68%;margin-bottom:var(--s7)}
+.slate{max-width:880px;border-radius:var(--r-out);background:#1C1B19;border:1px solid #34332F;overflow:hidden}
+.clapper{height:44px;transform-origin:10px 100%;background:repeating-linear-gradient(-45deg,#EDEBE6 0 22px,#141412 22px 44px);border-bottom:6px solid #141412}
+.clapper.clap{animation:clap .38s var(--ease)}
+@media (prefers-reduced-motion:reduce){.clapper.clap{animation:none}}
+@keyframes clap{0%{rotate:0deg}35%{rotate:-11deg}70%{rotate:0deg}85%{rotate:-1.5deg}100%{rotate:0deg}}
+.slate-body{display:grid;gap:0}
+.slate-row{display:grid;grid-template-columns:110px 1fr;border-top:1px solid #34332F}
+.slate-row:first-child{border-top:0}
+.slate-row>.k{padding:16px;font:600 12px/1.4 var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);border-right:1px solid #34332F}
+.slate-row>.v{padding:14px 16px;font-size:16px;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.slate-row{grid-template-columns:1fr}.slate-row>.k{border-right:0;padding-bottom:0}}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+.crew{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s2)}
+@media (min-width:700px){.crew{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.crew label{position:relative;display:grid;gap:4px;padding:12px;border:1px solid #3E3D38;border-radius:calc(var(--r-out) - 4px);cursor:pointer;transition:border-color .2s,background-color .2s}
+.crew input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.crew strong{font:800 20px/1 var(--display);font-stretch:80%}
+.crew span{font-size:13px;color:var(--ink-soft);line-height:1.35}
+.crew label:has(input:checked){border-color:var(--accent);background:#2A1714}
+.crew label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.slate-actions{display:flex;flex-wrap:wrap;gap:var(--s3);padding:var(--s5) 16px;border-top:1px solid #34332F;align-items:center}
+.slate-actions .to{font-size:14px;color:var(--ink-soft)}
+.copy-ok{font-size:14px;color:var(--ink);min-height:1.4em}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding-block:var(--s7) calc(var(--s7) + env(safe-area-inset-bottom))}
+.foot{display:grid;gap:var(--s6)}
+@media (min-width:900px){.foot{grid-template-columns:1.2fr 2fr;align-items:start}}
+.foot-mark{font:900 56px/.9 var(--display);font-stretch:68%;letter-spacing:-.02em}
+.foot-mark small{display:block;font:400 14px/1.5 var(--text);letter-spacing:0;color:var(--ink-soft);margin-top:10px}
+.foot-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5)}
+@media (min-width:700px){.foot-links{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.foot-links h3{font:600 12px/1 var(--text);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+.foot-links a{display:block;padding:6px 0;text-decoration:none;font-size:15px}
+.foot-links a:hover{text-decoration:underline;text-underline-offset:4px}
+.foot-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s3);margin-top:var(--s7);font-size:13px;color:var(--ink-soft)}
+.foot-base a{text-underline-offset:3px}
+
+/* ---------- dialogs ---------- */
+dialog{border:0;padding:0;color:var(--ink);background:transparent;max-width:none;max-height:none}
+dialog::backdrop{background:rgba(8,8,7,.82)}
+@media (prefers-reduced-motion:no-preference){
+  dialog[open]{animation:pop .25s var(--ease)}
+  @keyframes pop{from{opacity:0;translate:0 12px}}
+}
+.player{width:min(1100px,94vw)}
+.player-box{position:relative;aspect-ratio:16/9;background:#000;border-radius:var(--r-out);overflow:hidden;display:grid;place-items:center}
+.player-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.loading{display:flex;align-items:center;gap:12px;color:var(--ink-soft);font-size:15px}
+.loading i{width:18px;height:18px;border-radius:50%;border:2px solid #45433E;border-top-color:var(--ink)}
+@media (prefers-reduced-motion:no-preference){.loading i{animation:spin .8s linear infinite}@keyframes spin{to{rotate:360deg}}}
+.player-bar{display:flex;justify-content:space-between;align-items:center;gap:var(--s4);margin-bottom:10px}
+.player-bar p{font-weight:600}
+.x{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid #4A4843;background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.x svg{width:16px;height:16px}
+.msg{width:min(440px,calc(100vw - 24px));background:var(--surface);border:1px solid var(--line);border-radius:var(--r-out)}
+.msg-inner{padding:22px;display:grid;gap:12px}
+.msg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.msg-head h2{font-size:28px;font-stretch:80%}
+.msg-head p{color:var(--ink-soft);font-size:14px;margin-top:6px}
+.msg .btn{width:100%}
+.msg-note{font-size:14px;background:#22211E;border-left:3px solid var(--accent);border-radius:8px;padding:10px 12px;line-height:1.45;display:grid;gap:4px}
+.msg-note small{font-size:12px;color:var(--ink-soft)}
+@media (max-width:600px){
+  .msg{margin:auto auto 0;width:100%;border-radius:var(--r-out) var(--r-out) 0 0}
+  .msg-inner{padding-bottom:max(22px,env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body id="top">
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="vf">
+  <a class="vf-mark" href="#top" aria-label="LNB Studios, back to top"><span class="box">LNB</span>Studios</a>
+  <p class="vf-rec" id="rec" aria-hidden="true"><i></i><span class="lbl">REC</span><span id="tc">00:00:00:00</span></p>
+  <nav class="vf-formats" aria-label="Sections">
+    <a href="#media"><b style="aspect-ratio:9/16"></b>Media</a>
+    <a href="#films"><b style="aspect-ratio:2.39/1"></b>Films</a>
+    <a href="#studio"><b style="aspect-ratio:4/5"></b>Studio</a>
+    <a href="#woh"><b style="aspect-ratio:4/3"></b>We Out Here</a>
+  </nav>
+  <a class="btn btn-main vf-cta" href="#start">Start a project</a>
+</header>
+<div class="vf-corners" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<main id="main">
+
+<!-- 1 · hero -->
+<section class="hero" aria-labelledby="h1">
+  <div class="hero-plate" data-depth="0.06" aria-hidden="true"></div>
+  <h1 class="hero-word" id="h1" data-depth="0.18">LNB<small>Studios</small></h1>
+  <figure class="hero-card" data-depth="-0.12">
+    <div class="frame"><img src="assets/img/films-triptych.webp" width="570" height="711" alt="Three black and white film frames: a groom in a white shirt, lilies beside a hand, a bride with a flowing veil." fetchpriority="high"></div>
+    <figcaption>Film grabs from Sherissa and Alfonso's pre-wedding film, shot at LNB Studio.</figcaption>
+  </figure>
+  <div class="hero-copy">
+    <p class="lead"><b>Lens and Beauty</b>, from Davao City. One filmmaker's eye behind four crews: brand films, wedding films, a portrait studio and the nights people talk about after.</p>
+    <div class="hero-actions">
+      <a class="btn btn-main" href="#start">Start a project</a>
+      <button class="btn btn-line" type="button" data-play="HvxLxsSV4GA" data-title="LNB Media showreel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>Play the showreel</button>
+    </div>
+  </div>
+</section>
+
+<!-- 2 · the gate (peak) -->
+<section class="gate" id="gate" aria-labelledby="gate-title">
+  <div class="gate-track">
+    <div class="gate-stage">
+      <div class="gate-intro"><h2 id="gate-title">Four kinds of work. Each one gets its own frame.</h2></div>
+      <div class="gate-hud" aria-hidden="true">
+        <div class="gate-media" id="gateMedia"></div>
+        <div class="gate-ticks" id="gateTicks"><i></i><i></i><i></i><i></i></div>
+        <p class="gate-readout" id="gateRead"><b>●</b> <span id="gateRatio">0.56 : 1</span></p>
+      </div>
+      <ol class="gate-list">
+        <li class="gate-item" data-fmt="media" data-ratio="0.5625">
+          <figure><img src="assets/img/yt-a6piUYGbzeg.webp" width="1280" height="720" alt="The Crazy Bite Co. team raise their fists on a rooftop, from their anniversary video." loading="lazy" style="object-position:58% 50%"></figure>
+          <div class="cap">
+            <p class="ratio">9:16 · vertical</p>
+            <h3>LNB Media</h3>
+            <p>Content for brands: commercials, product videos, campaign shoots and event recaps, cut for the feed.</p>
+            <a class="go" href="#media">See the brand films</a>
+          </div>
+        </li>
+        <li class="gate-item" data-fmt="films" data-ratio="2.39">
+          <figure><img src="assets/img/films-vere.webp" width="1411" height="588" alt="Vere and Rea sit on a grassy hill below tall trees, from their pre-wedding film." loading="lazy"></figure>
+          <div class="cap">
+            <p class="ratio">2.39:1 · widescreen</p>
+            <h3>LNB Films</h3>
+            <p>Weddings and events. Same-day edits, pre-wedding films and debut films.</p>
+            <a class="go" href="#films">See the wedding films</a>
+          </div>
+        </li>
+        <li class="gate-item" data-fmt="studio" data-ratio="0.8">
+          <figure><img src="assets/img/studio-blazer.webp" width="534" height="711" alt="Studio portrait of a woman in an oversized black blazer against a light grey backdrop." loading="lazy" style="object-position:50% 30%"></figure>
+          <div class="cap">
+            <p class="ratio">4:5 · portrait</p>
+            <h3>LNB Studio</h3>
+            <p>A studio designed for creatives, built for expression. Portraits, families, athletes and themed sets.</p>
+            <a class="go" href="#studio">See the studio</a>
+          </div>
+        </li>
+        <li class="gate-item" data-fmt="woh" data-ratio="1.3333">
+          <figure><img src="assets/img/woh-booth.webp" width="622" height="350" alt="Fisheye shot of a DJ booth draped with a weouthere banner at night." loading="lazy"></figure>
+          <div class="cap">
+            <p class="ratio">4:3 · handheld, after dark</p>
+            <h3>We Out Here</h3>
+            <p>WeOutHerePH, creating community experience. DJ nights and pop-ups around Davao, filmed by LNB Media.</p>
+            <a class="go" href="#woh">See the nights</a>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · media -->
+<section class="chapter" id="media" aria-labelledby="media-title">
+  <div class="wrap">
+    <div class="chapter-head split">
+      <div>
+        <p class="kicker"><b style="aspect-ratio:9/16"></b>LNB Media</p>
+        <h2 id="media-title" style="margin-top:20px">Commercials for Davao brands, shot and cut in-house.</h2>
+      </div>
+      <div>
+        <p>"We create content for your brand." Product films, café stories, apparel drops and the behind-the-scenes reels that go with them.</p>
+        <ul class="services" aria-label="Services">
+          <li>Commercials</li><li>Product videos</li><li>Campaign shoots</li><li>Event recaps</li><li>Music videos</li><li>Behind the scenes</li>
+        </ul>
+      </div>
+    </div>
+
+    <button class="reel-feature" type="button" data-play="HvxLxsSV4GA" data-title="LNB Media showreel">
+      <img src="assets/img/yt-Zrwy_Ff-NoQ.webp" srcset="assets/img/yt-Zrwy_Ff-NoQ-s.webp 640w, assets/img/yt-Zrwy_Ff-NoQ.webp 1280w" sizes="(min-width:1440px) 1330px, 94vw" width="1280" height="720" alt="" loading="lazy">
+      <span class="play"><span class="play-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><span><strong>Watch the showreel</strong><small>LNB Media · plays on YouTube</small></span></span>
+    </button>
+
+    <div class="rail-head">
+      <h3>Brand films</h3>
+      <div class="rail-btns"><button type="button" data-rail="-1" aria-label="Previous films"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-rail="1" aria-label="Next films"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <ul class="rail" id="rail">
+      <li><button class="film" type="button" data-play="LNWel0dTXkE" data-title="Tomo Kopi · Product commercial"><span class="thumb"><img src="assets/img/yt-LNWel0dTXkE-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Tomo Kopi</strong><span>Product commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="HftNo-wA9Zg" data-title="Tara Kape? · Tomo Kopi commercial"><span class="thumb"><img src="assets/img/yt-HftNo-wA9Zg-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Tara Kape?</strong><span>Tomo Kopi store commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="1561Nepoggw" data-title="Psyche Clothing · Commercial"><span class="thumb"><img src="assets/img/yt-1561Nepoggw-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Psyche Clothing</strong><span>Apparel commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="3aeVpVXpIgs" data-title="Glow Perfect Cotton Candy · Commercial"><span class="thumb"><img src="assets/img/yt-3aeVpVXpIgs-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Glow Perfect Cotton Candy</strong><span>Product commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="Zrwy_Ff-NoQ" data-title="Crazy Bite Co. · Sky Cafe"><span class="thumb"><img src="assets/img/yt-Zrwy_Ff-NoQ-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Crazy Bite Co. Sky Cafe</strong><span>Café film</span></span></button></li>
+      <li><button class="film" type="button" data-play="a6piUYGbzeg" data-title="Crazy Bite Co. · Anniversary video"><span class="thumb"><img src="assets/img/yt-a6piUYGbzeg-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Teamwork makes the crazy dream work</strong><span>Crazy Bite anniversary video</span></span></button></li>
+      <li><button class="film" type="button" data-play="dtnRVOqFo1Q" data-title="Glow Perfect · Behind the scenes"><span class="thumb"><img src="assets/img/yt-dtnRVOqFo1Q-s.webp" width="640" height="360" alt="" loading="lazy"></span><span class="meta"><strong>Shooting Glow Perfect</strong><span>Behind the scenes</span></span></button></li>
+    </ul>
+
+    <div class="clients">
+      <h3>Also on the reel</h3>
+      <ul>
+        <li>RC Dental Center</li><li>Allez Pickleball</li><li>SACYHOME</li><li>Scape Cafe</li><li>Bae Naliyagan 2026</li><li>LYVEFEST Davao</li>
+      </ul>
+      <p class="note">Campaign videos, cinematic showcases, store openings and festival recaps, from LNB Media's Instagram. Behind-the-scenes reels are made by the Team 26 interns.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · films -->
+<section class="chapter films" id="films" aria-labelledby="films-title">
+  <div class="wrap">
+    <div class="chapter-head">
+      <p class="kicker"><b style="aspect-ratio:2.39/1"></b>LNB Films</p>
+      <h2 id="films-title">Your wedding day, cut into a film before the night ends.</h2>
+      <p>"We create beauty in every moment." LNB Films covers weddings and events across Davao and Mati, from the pre-wedding shoot to the same-day edit shown at the reception.</p>
+    </div>
+    <figure class="scope">
+      <img src="assets/img/films-memory.webp" width="1185" height="780" alt="A bride in a teal dress looks up laughing under a canopy of trees, holding white flowers." loading="lazy">
+      <figcaption>Frame from an LNB Films pre-wedding film.</figcaption>
+    </figure>
+    <div class="films-grid">
+      <figure>
+        <img src="assets/img/films-triptych.webp" width="570" height="711" alt="Black and white film grabs: a groom in shadow, lilies, a bride with a flowing veil." loading="lazy">
+        <figcaption>Sherissa and Alfonso, pre-wedding film grabs.</figcaption>
+      </figure>
+      <div class="what">
+        <dl>
+          <div><dt>Same-day edit</dt><dd>The wedding filmed and edited on the day, ready to play for your guests.</dd></div>
+          <div><dt>Pre-wedding film</dt><dd>A short, cinematic film of the two of you before the big day.</dd></div>
+          <div><dt>Debut film</dt><dd>Eighteenth-birthday coverage with a same-day edit, like "Iana at eighteen".</dd></div>
+        </dl>
+        <div><a class="btn btn-main" href="#start" data-crew="films">Ask about your date</a></div>
+      </div>
+    </div>
+    <div class="credits">
+      <h3>Recent films</h3>
+      <ul>
+        <li>Murphy &amp; Annika<span>Same-day edit wedding film</span></li>
+        <li>Benj &amp; Yana<span>Same-day edit wedding film</span></li>
+        <li>Scarlley &amp; Ronnel<span>Mati beach wedding, same-day edit</span></li>
+        <li>Michael &amp; Aika<span>Same-day edit, La Herencia Davao</span></li>
+        <li>Vere &amp; Rea<span>Pre-wedding film</span></li>
+      </ul>
+      <p class="end">"Every love story is worth telling. Message us and let us capture your wedding day."</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 · studio -->
+<section class="chapter studio" id="studio" aria-labelledby="studio-title">
+  <div class="wrap">
+    <div class="chapter-head split">
+      <div>
+        <p class="kicker"><b style="aspect-ratio:4/5"></b>LNB Studio</p>
+        <h2 id="studio-title" style="margin-top:20px">A room in Davao built for portraits.</h2>
+      </div>
+      <p>A studio designed for creatives, built for expression. Book it for a family portrait, an editorial shoot or a themed set, with LNB behind the camera.</p>
+    </div>
+
+    <div class="xmas" id="xmas">
+      <h3>A Classic Red Christmas</h3>
+      <div>
+        <p class="when">Nov 5 to Dec 22, 2026</p>
+        <p>Christmas portrait sessions for yourself, your favourite person, your friends or the whole family. Limited slots. Send a message to get the booking link.</p>
+      </div>
+      <a class="btn btn-main" href="#start" data-crew="studio">Ask for the booking link</a>
+    </div>
+
+    <div class="strip">
+      <figure><img src="assets/img/studio-christmas.webp" width="442" height="664" alt="A family of four sits in front of a red velvet curtain, Christmas tree and wreath." loading="lazy"><figcaption>Red Christmas set, 2026</figcaption></figure>
+      <figure><img src="assets/img/studio-blazer.webp" width="534" height="711" alt="A woman in an oversized black blazer and heels poses against a grey backdrop." loading="lazy"><figcaption>Editorial portrait</figcaption></figure>
+      <figure><img src="assets/img/studio-swim.webp" width="570" height="711" alt="A triathlete in a swim cap lifts her goggles against a sky-blue backdrop." loading="lazy"><figcaption>Athlete portrait, Black Cat Tri</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · we out here -->
+<section class="chapter woh" id="woh" aria-labelledby="woh-title">
+  <div class="wrap">
+    <div class="chapter-head split">
+      <div>
+        <p class="kicker"><b style="aspect-ratio:4/3"></b>WeOutHerePH</p>
+        <h2 id="woh-title" style="margin-top:20px">Ten seasons of nights out in Davao.</h2>
+      </div>
+      <p>WeOutHerePH is about creating community experience: DJ nights, live sets and merch pop-ups in cafés and clubs. LNB Media films the recaps, so the night lives on after it ends.</p>
+    </div>
+    <div class="wall">
+      <figure class="tilt"><img src="assets/img/woh-fire.webp" width="533" height="711" alt="Fire-themed poster for a WeOutHere night at Fiend Coffee Club with DJs Orbit, RossFuego, Delae and Sam Rodriguez." loading="lazy"><figcaption>Jan 1, Fiend Coffee Club</figcaption></figure>
+      <figure class="tilt"><img src="assets/img/woh-doves.webp" width="523" height="711" alt="Vintage dove illustration poster for We Out Here at Cavern Coffee on Feb 15." loading="lazy"><figcaption>Feb 15, Cavern Coffee</figcaption></figure>
+      <figure class="tilt booth"><img src="assets/img/woh-booth.webp" width="622" height="350" alt="Fisheye night shot of a DJ booth with a weouthere banner." loading="lazy"><figcaption>Saturday Switch Up</figcaption></figure>
+    </div>
+    <p class="venues" aria-label="Venues"><strong>Otso</strong><span>/</span><strong>XCLV Club</strong><span>/</span><strong>Fiend Coffee Club</strong><span>/</span><strong>Cavern Coffee</strong></p>
+    <p style="margin-top:var(--s6)"><a class="btn btn-line" href="https://www.instagram.com/weouthereph/" target="_blank" rel="noopener">See what's next on @weouthereph</a></p>
+  </div>
+</section>
+
+<!-- 7 · filmmaker -->
+<section class="chapter pitt" aria-labelledby="pitt-title">
+  <div class="wrap pitt-grid">
+    <h2 id="pitt-title">Filmed by Pitt.</h2>
+    <div>
+      <p>Pitt Delcano is the filmmaker behind LNB. He shoots and edits much of what you see here himself, from same-day wedding edits to brand commercials.</p>
+      <p>Recent credits include director of photography and editor on the "BISAYA EXCELLENCE" music video, and the LYVEFEST Davao 2026 recap.</p>
+      <a class="tag" href="https://www.instagram.com/pittdelcano/" target="_blank" rel="noopener">@pittdelcano on Instagram</a>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · close: the slate -->
+<section class="close" id="start" aria-labelledby="start-title">
+  <div class="wrap">
+    <h2 id="start-title">Start a project.</h2>
+    <form class="slate" id="slate" onsubmit="return false">
+      <div class="clapper" id="clapper" aria-hidden="true"></div>
+      <div class="slate-body">
+        <div class="slate-row"><span class="k">Prod.</span><span class="v">LNB Studios · Davao City</span></div>
+        <div class="slate-row"><span class="k">Date</span><span class="v" id="today">Today</span></div>
+        <fieldset class="slate-row">
+          <legend class="sr-only">Which crew is this for?</legend>
+          <span class="k" aria-hidden="true">Crew</span>
+          <div class="v crew">
+            <label><input type="radio" name="crew" value="media" checked><strong>Media</strong><span>Brand content, commercials</span></label>
+            <label><input type="radio" name="crew" value="films"><strong>Films</strong><span>Weddings, debuts, events</span></label>
+            <label><input type="radio" name="crew" value="studio"><strong>Studio</strong><span>Portraits, Christmas sets</span></label>
+            <label><input type="radio" name="crew" value="woh"><strong>We Out Here</strong><span>Nights, collabs</span></label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="slate-actions">
+        <a class="btn btn-main" id="sendIg" href="https://ig.me/m/lnbmediaph" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12z"/></svg>Message us</a>
+        <a class="btn btn-line" id="sendMail" href="mailto:lnbmedia23@gmail.com?subject=Project%20inquiry%3A%20LNB%20Media">Email lnbmedia23@gmail.com</a>
+        <p class="to" id="sendTo" aria-live="polite">Goes to @lnbmediaph</p>
+      </div>
+    </form>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <p class="foot-mark">LNB<small>Lens and Beauty · Davao City, Philippines</small></p>
+      <div class="foot-links">
+        <div><h3>Media</h3><a href="https://www.instagram.com/lnbmediaph/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/lnbmediaph" target="_blank" rel="noopener">Facebook</a><a href="https://www.youtube.com/@LNBMedia" target="_blank" rel="noopener">YouTube</a></div>
+        <div><h3>Films</h3><a href="https://www.instagram.com/lnbfilms/" target="_blank" rel="noopener">Instagram</a></div>
+        <div><h3>Studio</h3><a href="https://www.instagram.com/lnbstudio.ph/" target="_blank" rel="noopener">Instagram</a></div>
+        <div><h3>We Out Here</h3><a href="https://www.instagram.com/weouthereph/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="yr">2026</span> LNB Studios</span>
+      <a href="https://kendamin.github.io/" target="_blank" rel="noopener">Watermark by Ken Abuda</a>
+    </div>
+  </div>
+</footer>
+
+<!-- video player -->
+<dialog class="player" id="player" closedby="any" aria-labelledby="playerTitle">
+  <div class="player-bar">
+    <p id="playerTitle">Film</p>
+    <form method="dialog"><button class="x" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+  </div>
+  <div class="player-box" id="playerBox"><p class="loading"><i></i>Loading film…</p></div>
+</dialog>
+
+<!-- message chooser (Ken's pattern: Messenger / Instagram links open this first) -->
+<dialog class="msg" id="msgDialog" closedby="any" aria-labelledby="msgTitle">
+  <div class="msg-inner">
+    <div class="msg-head">
+      <div><h2 id="msgTitle">Message LNB Media</h2><p id="msgSub">Tell us what you're making and when.</p></div>
+      <form method="dialog"><button class="x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+    </div>
+    <a class="btn btn-main" id="msgIg" href="https://ig.me/m/lnbmediaph" target="_blank" rel="noopener">Message @lnbmediaph on Instagram</a>
+    <a class="btn btn-line" id="msgFb" href="https://m.me/lnbmediaph" target="_blank" rel="noopener">Message LNB Media on Messenger</a>
+    <a class="btn btn-line" id="msgMail" href="mailto:lnbmedia23@gmail.com">Email lnbmedia23@gmail.com</a>
+    <div class="msg-note" id="msgNote" hidden>
+      <p>See <strong>"Get the Messenger app"</strong>? Tap <strong>Open in Messenger</strong> below it instead.</p>
+      <small>Still not opening? Tap <strong>•••</strong> and choose <strong>Open in browser</strong>.</small>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const $ = s => document.querySelector(s);
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  // ---- slate date, in Philippine time
+  $("#today").textContent = new Intl.DateTimeFormat("en-PH", { timeZone: "Asia/Manila", day: "numeric", month: "short", year: "numeric" }).format(new Date());
+
+  // ---- Christmas sessions end Dec 22, 2026 (hide the banner afterwards)
+  if (Date.now() > Date.parse("2026-12-23T00:00:00+08:00")) $("#xmas").hidden = true;
+
+  // ---- viewfinder timecode: scroll position as 24 fps timecode
+  const tc = $("#tc"), rec = $("#rec"), vf = $(".vf");
+  let rollT;
+  const pad = n => String(n).padStart(2, "0");
+  const setTC = () => {
+    const f = Math.round(scrollY / 3), fr = f % 24, s = Math.floor(f / 24);
+    tc.textContent = `${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}:${pad(fr)}`;
+    vf.classList.toggle("is-solid", scrollY > 40);
+    rec.classList.add("is-rolling"); clearTimeout(rollT); rollT = setTimeout(() => rec.classList.remove("is-rolling"), 400);
+  };
+
+  // ---- hero depth planes (scroll + pointer lean); off with reduced motion
+  const planes = [...document.querySelectorAll(".hero [data-depth]")];
+  let lean = { x: 0, y: 0 };
+  const drawHero = () => {
+    if (reduce.matches) { planes.forEach(p => p.style.transform = ""); return; }
+    const y = Math.min(scrollY, innerHeight * 1.2);
+    planes.forEach(p => {
+      const d = parseFloat(p.dataset.depth);
+      p.style.transform = `translate3d(${(lean.x * d * 60).toFixed(1)}px, ${(y * d + lean.y * d * 40).toFixed(1)}px, 0)`;
+    });
+  };
+  if (matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    addEventListener("pointermove", e => {
+      lean = { x: e.clientX / innerWidth - .5, y: e.clientY / innerHeight - .5 };
+      if (scrollY < innerHeight) requestAnimationFrame(drawHero);
+    }, { passive: true });
+  }
+
+  // ---- THE GATE: one frame that reshapes to each brand's real delivery format
+  const gate = $("#gate");
+  const items = [...gate.querySelectorAll(".gate-item")];
+  const media = $("#gateMedia"), ticks = $("#gateTicks"), read = $("#gateRead"), ratioEl = $("#gateRatio");
+  const figs = items.map(li => li.querySelector("figure"));
+  const caps = items.map(li => li.querySelector(".cap"));
+  const ratios = items.map(li => parseFloat(li.dataset.ratio));
+  let gateLive = false, layout = null, activeIdx = -1;
+
+  const smooth = t => t * t * (3 - 2 * t);
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+  function measureGate() {
+    const W = innerWidth, H = innerHeight, wide = W >= 900;
+    // region where the frame lives; captions sit beside (desktop) or below (phone)
+    const region = wide
+      ? { x: W * 0.42, y: 96, w: W * 0.58 - 48, h: H - 96 - 64 }
+      : { x: 20, y: 150, w: W - 40, h: H * 0.56 - 90 };
+    const cap = wide
+      ? { left: Math.max(24, W * 0.05), top: H * 0.5, width: W * 0.32 }
+      : { left: 20, top: region.y + region.h + 46, width: W - 40 };
+    layout = { region, cap, wide };
+    Object.assign(media.style, { left: region.x + "px", top: region.y + "px", width: region.w + "px", height: region.h + "px" });
+    figs.forEach(f => Object.assign(f.style, { left: region.x + "px", top: region.y + "px", width: region.w + "px", height: region.h + "px" }));
+    caps.forEach(c => Object.assign(c.style, { left: cap.left + "px", top: cap.top + "px", width: cap.width + "px", transform: wide ? "translateY(-50%)" : "" }));
+  }
+
+  function drawGate() {
+    if (!gateLive) return;
+    const r = gate.getBoundingClientRect();
+    const total = r.height - innerHeight;
+    const p = clamp(-r.top / total);
+    gate.classList.toggle("past-intro", p > 0.04);
+    const seg = p * (ratios.length - 1);
+    const i = Math.min(ratios.length - 2, Math.floor(seg));
+    const t = smooth(clamp((seg - i - 0.3) / 0.4));                 // hold, morph, hold
+    const ratio = Math.exp(Math.log(ratios[i]) * (1 - t) + Math.log(ratios[i + 1]) * t);
+    const { region } = layout;
+    let w = region.w, h = w / ratio;
+    if (h > region.h) { h = region.h; w = h * ratio; }
+    const x = region.x + (region.w - w) / 2, y = region.y + (region.h - h) / 2;
+    const ins = `inset(${(y - region.y).toFixed(1)}px ${(region.x + region.w - x - w).toFixed(1)}px ${(region.y + region.h - y - h).toFixed(1)}px ${(x - region.x).toFixed(1)}px)`;
+    media.style.clipPath = ins;
+    figs.forEach((f, k) => {
+      f.style.clipPath = ins;
+      f.style.opacity = k === i ? 1 - t : k === i + 1 ? t : 0;
+    });
+    Object.assign(ticks.style, { left: x + "px", top: y + "px", width: w + "px", height: h + "px" });
+    Object.assign(read.style, { left: x + "px", top: (y + h + 18) + "px" });
+    ratioEl.textContent = `${ratio.toFixed(2)} : 1`;
+    const on = t < 0.5 ? i : i + 1;
+    if (on !== activeIdx) {
+      activeIdx = on;
+      items.forEach((li, k) => li.classList.toggle("is-on", k === on));
+    }
+  }
+
+  function setGate() {
+    const want = !reduce.matches && innerHeight >= 480;
+    if (want === gateLive) { if (gateLive) { measureGate(); drawGate(); } return; }
+    gateLive = want;
+    gate.classList.toggle("is-live", want);
+    gate.style.setProperty("--gate-steps", ratios.length);
+    if (want) { measureGate(); drawGate(); }
+    else {
+      items.forEach(li => li.classList.remove("is-on"));
+      [media, ...figs, ...caps].forEach(el => el.removeAttribute("style"));
+      ticks.removeAttribute("style"); read.removeAttribute("style");
+    }
+  }
+  // links inside off-screen captions must not be tabbable; when a caption link gets focus, scroll its step into view
+  caps.forEach((c, k) => c.querySelector("a").addEventListener("focus", () => {
+    if (!gateLive) return;
+    const r = gate.getBoundingClientRect(), total = r.height - innerHeight;
+    const target = scrollY + r.top + total * (k / (ratios.length - 1));
+    if (Math.abs(scrollY - target) > 4) scrollTo({ top: target, behavior: "instant" });
+  }));
+
+  // ---- one scroll loop for everything
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => { ticking = false; setTC(); drawHero(); drawGate(); });
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", () => { setGate(); drawHero(); }, { passive: true });
+  reduce.addEventListener("change", () => { setGate(); drawHero(); });
+  setGate(); setTC(); rec.classList.remove("is-rolling");
+
+  // ---- film rail arrows
+  const rail = $("#rail");
+  document.querySelectorAll("[data-rail]").forEach(b => b.addEventListener("click", () => {
+    rail.scrollBy({ left: rail.clientWidth * 0.85 * parseInt(b.dataset.rail, 10), behavior: reduce.matches ? "auto" : "smooth" });
+  }));
+
+  // ---- YouTube player: iframe only loads when someone presses play (keeps the page light on mobile data)
+  const player = $("#player"), box = $("#playerBox");
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-play]");
+    if (!b) return;
+    $("#playerTitle").textContent = b.dataset.title;
+    box.innerHTML = '<p class="loading"><i></i>Loading film…</p>';
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.play}?autoplay=1&rel=0&playsinline=1`;
+    f.title = b.dataset.title;
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    f.style.opacity = 0;
+    f.addEventListener("load", () => { f.style.opacity = 1; box.querySelector(".loading")?.remove(); });
+    box.appendChild(f);
+    player.showModal();
+  });
+  player.addEventListener("close", () => { box.innerHTML = ""; });
+
+  // ---- the slate: pick a crew, the message goes to that crew's account
+  const CREWS = {
+    media:  { name: "LNB Media",   ig: "lnbmediaph",   sub: "Commercials, product videos, campaigns, recaps." },
+    films:  { name: "LNB Films",   ig: "lnbfilms",     sub: "Weddings, pre-wedding films, debuts and events." },
+    studio: { name: "LNB Studio",  ig: "lnbstudio.ph", sub: "Portrait sessions and Christmas set bookings." },
+    woh:    { name: "WeOutHerePH", ig: "weouthereph",  sub: "Nights, collabs and community events." }
+  };
+  let crew = "media";
+  const clapper = $("#clapper");
+  function setCrew(key, clap) {
+    crew = key; const c = CREWS[key];
+    $("#sendIg").href = `https://ig.me/m/${c.ig}`;
+    $("#sendMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent("Project inquiry: " + c.name)}`;
+    $("#sendTo").textContent = `Goes to @${c.ig}`;
+    if (clap) { clapper.classList.remove("clap"); void clapper.offsetWidth; clapper.classList.add("clap"); }
+  }
+  document.querySelectorAll('input[name="crew"]').forEach(r => r.addEventListener("change", () => setCrew(r.value, true)));
+  document.querySelectorAll("a[data-crew]").forEach(a => a.addEventListener("click", () => {
+    const r = document.querySelector(`input[name="crew"][value="${a.dataset.crew}"]`);
+    r.checked = true; setCrew(a.dataset.crew, false);
+  }));
+
+  // ---- Message chooser: Instagram / Messenger links open it first (no JS: the plain links still work)
+  const msg = $("#msgDialog");
+  const inApp = /FBAN|FBAV|FB_IAB|FBIOS|Messenger|Instagram/i.test(navigator.userAgent);
+  if (inApp) $("#msgNote").hidden = false;
+  document.addEventListener("click", e => {
+    const a = e.target.closest('a[href^="https://ig.me/"], a[href^="https://m.me/"]');
+    if (!a || msg.contains(a)) return;
+    e.preventDefault();
+    const c = CREWS[crew];
+    $("#msgTitle").textContent = `Message ${c.name}`;
+    $("#msgSub").textContent = c.sub;
+    $("#msgIg").href = `https://ig.me/m/${c.ig}`;
+    $("#msgIg").textContent = `Message @${c.ig} on Instagram`;
+    $("#msgMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent("Project inquiry: " + c.name)}`;
+    msg.showModal();
+    $("#msgIg").focus();
+  });
+  const lightDismiss = d => {                                   // Safari: tap outside to close
+    if ("closedBy" in HTMLDialogElement.prototype) return;
+    let down = false;
+    const out = e => { const r = d.getBoundingClientRect(); return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom; };
+    d.addEventListener("pointerdown", e => { down = out(e); });
+    d.addEventListener("pointerup", e => { if (down && out(e)) d.close(); });
+  };
+  lightDismiss(msg); lightDismiss(player);
+
+  // ---- mark the current chapter in the viewfinder nav
+  const navLinks = [...document.querySelectorAll(".vf-formats a")];
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    navLinks.forEach(a => a.setAttribute("aria-current", a.hash === "#" + en.target.id ? "true" : "false"));
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  ["media", "films", "studio", "woh"].forEach(id => io.observe(document.getElementById(id)));
+})();
+</script>
+</body>
+</html>
