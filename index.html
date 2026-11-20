@@ -197,28 +197,21 @@ p{margin:0;text-wrap:pretty}
 .xmas h3{font-size:clamp(30px,3.6vw,52px);font-stretch:76%}
 .xmas .when{font-variant-numeric:tabular-nums;font-weight:600;color:var(--accent-deep)}
 .xmas p{color:var(--paper-soft);max-width:52ch}
-.strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3);align-items:end}
-.strip figure{margin:0}
-.strip img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px;background:#d6d2c8}
-.strip figure:nth-child(2) img{aspect-ratio:3/4.4}
-.strip figcaption{font-size:13px;color:var(--paper-soft);margin-top:10px;line-height:1.4}
-@media (max-width:640px){
-  .strip{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68vw;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scroll-padding-inline:var(--gutter)}
-  .strip figure{scroll-snap-align:start}
-}
+/* ---------- photo galleries: one even-height row that scrolls sideways ---------- */
+.gallery{--gh:clamp(320px,54vh,480px);list-style:none;margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter) var(--s4);display:flex;gap:var(--s3);overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:#3A3935 transparent}
+.gallery>li{flex:none;scroll-snap-align:start}
+.gallery figure{margin:0}
+.gallery img{height:var(--gh);width:auto;max-width:none;object-fit:cover;border-radius:6px;background:#1E1D1A}
+.gallery figcaption{font-size:13px;line-height:1.4;color:var(--ink-soft);margin-top:10px;max-width:34ch}
+@media (max-width:640px){.gallery{--gh:min(400px,62svh)}}
+.studio .gallery{scrollbar-color:#B9B4A8 transparent}
+.studio .gallery img{background:#D6D2C8}
+.studio .rail-btns button{border-color:#9C978C;color:var(--paper-ink)}
+.studio .rail-btns button:hover{border-color:var(--paper-ink)}
+.gallery-count{font-size:14px;color:var(--ink-soft);font-variant-numeric:tabular-nums}
 
-/* ---------- we out here: poster wall ---------- */
+/* ---------- we out here ---------- */
 .woh{background:var(--canvas);overflow:clip}
-.wall{display:grid;gap:var(--s5);grid-template-columns:repeat(2,minmax(0,1fr))}
-.wall figure{margin:0}
-.wall img{width:100%;border-radius:4px;box-shadow:0 24px 50px -24px rgba(0,0,0,.9)}
-.wall figcaption{font-size:13px;color:var(--ink-soft);margin-top:10px}
-.wall .booth{grid-column:1/-1}
-.wall .booth img{aspect-ratio:16/9;object-fit:cover}
-@media (min-width:900px){
-  .wall{grid-template-columns:1fr 1fr 1.6fr;align-items:center;gap:var(--s7)}
-  .wall .booth{grid-column:auto}
-}
 .venues{margin-top:var(--s8);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s5);align-items:baseline}
 .venues strong{font:800 clamp(30px,4.6vw,68px)/1 var(--display);font-stretch:70%;letter-spacing:-.02em}
 .venues span{color:#56544E;font-size:clamp(30px,4.6vw,68px);line-height:1;font-family:var(--display)}
@@ -231,6 +224,10 @@ p{margin:0;text-wrap:pretty}
 .pitt p{font-size:clamp(18px,1.5vw,21px);max-width:54ch}
 .pitt p+p{margin-top:var(--s4);color:var(--ink-soft);font-size:17px}
 .pitt .tag{display:inline-block;margin-top:var(--s5);font-weight:600;text-underline-offset:5px}
+.mv{margin-top:var(--s8)}
+.mv .reel-feature{margin-bottom:var(--s3)}
+.mv-credit{font-size:14px;color:var(--ink-soft)}
+@media (max-width:640px){.reel-feature small{display:none}}
 
 /* ---------- contact ---------- */
 .close{padding-block:var(--section) calc(var(--section) * .7);background:var(--canvas)}
@@ -477,11 +474,22 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
       <a class="btn btn-main" href="#start" data-crew="studio">Ask for the booking link</a>
     </div>
 
-    <div class="strip">
-      <figure><img src="assets/img/studio-christmas.webp" width="442" height="664" alt="A family of four sits in front of a red velvet curtain, Christmas tree and wreath." loading="lazy"><figcaption>Red Christmas set, 2026</figcaption></figure>
-      <figure><img src="assets/img/studio-blazer.webp" width="534" height="711" alt="A woman in an oversized black blazer and heels poses against a grey backdrop." loading="lazy"><figcaption>Editorial portrait</figcaption></figure>
-      <figure><img src="assets/img/studio-swim.webp" width="570" height="711" alt="A triathlete in a swim cap lifts her goggles against a sky-blue backdrop." loading="lazy"><figcaption>Athlete portrait, Black Cat Tri</figcaption></figure>
+    <div class="rail-head">
+      <h3>From the studio</h3>
+      <div class="rail-btns"><button type="button" data-rail="-1" data-target="studioGal" aria-label="Previous studio photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-rail="1" data-target="studioGal" aria-label="Next studio photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
     </div>
+    <ul class="gallery" id="studioGal" aria-label="LNB Studio photos">
+      <li><figure><img src="assets/img/studio-christmas.webp" width="442" height="664" alt="A family of four sits in front of a red velvet curtain, Christmas tree and wreath." loading="lazy"><figcaption>Red Christmas set, 2026</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-room.webp" width="570" height="711" alt="The LNB Studio lounge: white walls, framed art, a record, an arched mirror, a keyboard and plants." loading="lazy"><figcaption>The studio space</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-flower.webp" width="532" height="711" alt="A smiling woman in a white hijab holds a pink gerbera against a pale yellow backdrop." loading="lazy"><figcaption>Portrait session</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-hat.webp" width="570" height="711" alt="A young woman in a black wide-brim hat and leather dress poses on a white backdrop." loading="lazy"><figcaption>Fashion portrait</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-swim.webp" width="570" height="711" alt="A triathlete in a swim cap lifts her goggles against a sky-blue backdrop." loading="lazy"><figcaption>Athlete portrait, Black Cat Tri</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-maternity.webp" width="532" height="711" alt="Maternity portrait of a woman cradling her belly against a deep red backdrop." loading="lazy"><figcaption>Maternity portrait</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-veil.webp" width="532" height="711" alt="A woman in a white lace veil and gown, softly lit against black." loading="lazy"><figcaption>Veil portrait</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-blazer.webp" width="534" height="711" alt="A woman in an oversized black blazer and heels poses against a grey backdrop." loading="lazy"><figcaption>Editorial portrait</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-pets.webp" width="532" height="711" alt="A dog in a blue bandana sits beside an orange cat in a green flower sweater." loading="lazy"><figcaption>Pet portraits</figcaption></figure></li>
+      <li><figure><img src="assets/img/studio-blonde.webp" width="570" height="711" alt="A woman with long platinum hair in a black corset looks over her shoulder." loading="lazy"><figcaption>Character portrait</figcaption></figure></li>
+    </ul>
   </div>
 </section>
 
@@ -495,11 +503,21 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
       </div>
       <p>WeOutHerePH is about creating community experience: DJ nights, live sets and merch pop-ups in cafés and clubs. LNB Media films the recaps, so the night lives on after it ends.</p>
     </div>
-    <div class="wall">
-      <figure class="tilt"><img src="assets/img/woh-fire.webp" width="533" height="711" alt="Fire-themed poster for a WeOutHere night at Fiend Coffee Club with DJs Orbit, RossFuego, Delae and Sam Rodriguez." loading="lazy"><figcaption>Jan 1, Fiend Coffee Club</figcaption></figure>
-      <figure class="tilt"><img src="assets/img/woh-doves.webp" width="523" height="711" alt="Vintage dove illustration poster for We Out Here at Cavern Coffee on Feb 15." loading="lazy"><figcaption>Feb 15, Cavern Coffee</figcaption></figure>
-      <figure class="tilt booth"><img src="assets/img/woh-booth.webp" width="622" height="350" alt="Fisheye night shot of a DJ booth with a weouthere banner." loading="lazy"><figcaption>Saturday Switch Up</figcaption></figure>
+    <div class="rail-head">
+      <h3>From the nights</h3>
+      <div class="rail-btns"><button type="button" data-rail="-1" data-target="wohGal" aria-label="Previous night photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-rail="1" data-target="wohGal" aria-label="Next night photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
     </div>
+    <ul class="gallery" id="wohGal" aria-label="WeOutHerePH photos">
+      <li><figure><img src="assets/img/woh-otso.webp" width="874" height="491" alt="Black and white street shot of a crowd outside Otso under red 'We belong to the streets' lettering." loading="lazy"><figcaption>We Belong to the Streets, Otso</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-dj-red.webp" width="713" height="889" alt="A DJ in a trucker cap plays under red neon while the crowd behind him dances." loading="lazy"><figcaption>Behind the decks</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-lounge.webp" width="800" height="800" alt="Two photos side by side: a crowd dancing with drinks, and a DJ in a white shirt at the controller." loading="lazy"><figcaption>Saturday Switch Up</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-dj-deck.webp" width="713" height="889" alt="A DJ with headphones mixes on a lit controller in a red-lit bar." loading="lazy"><figcaption>Live set, red room</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-truck.webp" width="848" height="622" alt="A pickup truck parked at night beside a weouthere flag and a graffiti wall, with red 'We belong to the streets' text." loading="lazy"><figcaption>WeOutHere x Otso</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-hearts.webp" width="570" height="711" alt="A DJ in a beanie plays under a strip light, titled Hearts On Beat." loading="lazy"><figcaption>Hearts On Beat</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-booth.webp" width="622" height="350" alt="Fisheye night shot of a DJ booth with a weouthere banner." loading="lazy"><figcaption>The booth</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-fire.webp" width="533" height="711" alt="Fire-themed poster for a WeOutHere night at Fiend Coffee Club with DJs Orbit, RossFuego, Delae and Sam Rodriguez." loading="lazy"><figcaption>Poster: Jan 1, Fiend Coffee Club</figcaption></figure></li>
+      <li><figure><img src="assets/img/woh-doves.webp" width="523" height="711" alt="Vintage dove illustration poster for We Out Here at Cavern Coffee on Feb 15." loading="lazy"><figcaption>Poster: Feb 15, Cavern Coffee</figcaption></figure></li>
+    </ul>
     <p class="venues" aria-label="Venues"><strong>Otso</strong><span>/</span><strong>XCLV Club</strong><span>/</span><strong>Fiend Coffee Club</strong><span>/</span><strong>Cavern Coffee</strong></p>
     <p style="margin-top:var(--s6)"><a class="btn btn-line" href="https://www.instagram.com/weouthereph/" target="_blank" rel="noopener">See what's next on @weouthereph</a></p>
   </div>
@@ -514,6 +532,13 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
       <p>Recent credits include director of photography and editor on the "BISAYA EXCELLENCE" music video, and the LYVEFEST Davao 2026 recap.</p>
       <a class="tag" href="https://www.instagram.com/pittdelcano/" target="_blank" rel="noopener">@pittdelcano on Instagram</a>
     </div>
+  </div>
+  <div class="wrap mv">
+    <button class="reel-feature" type="button" data-play="8rOMhdpUw40" data-title="Delinquent Society · NAKA BLACK (Official Music Video)">
+      <img src="assets/img/mv-naka-black.webp" srcset="assets/img/mv-naka-black-s.webp 640w, assets/img/mv-naka-black.webp 1280w" sizes="(min-width:1440px) 1330px, 94vw" width="1280" height="720" alt="" loading="lazy">
+      <span class="play"><span class="play-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><span><strong>NAKA BLACK</strong><small>Delinquent Society · Official music video · plays on YouTube</small></span></span>
+    </button>
+    <p class="mv-credit">Delinquent Society, "NAKA BLACK" (official music video, July 2025). Shot and edited by Pitt Delcano (LNB Media), directed by Burbankzzz.</p>
   </div>
 </section>
 
@@ -604,8 +629,8 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
   setBar();
 
   // ---- film rail arrows
-  const rail = $("#rail");
   document.querySelectorAll("[data-rail]").forEach(b => b.addEventListener("click", () => {
+    const rail = document.getElementById(b.dataset.target || "rail");
     rail.scrollBy({ left: rail.clientWidth * 0.85 * parseInt(b.dataset.rail, 10), behavior: reduce.matches ? "auto" : "smooth" });
   }));
 
