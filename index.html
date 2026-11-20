@@ -226,7 +226,13 @@ p{margin:0;text-wrap:pretty}
 .pitt .tag{display:inline-block;margin-top:var(--s5);font-weight:600;text-underline-offset:5px}
 .mv{margin-top:var(--s8)}
 .mv .reel-feature{margin-bottom:var(--s3)}
-.mv-credit{font-size:14px;color:var(--ink-soft)}
+.mv h3{font-size:clamp(26px,3vw,40px);font-stretch:80%;margin-bottom:var(--s5)}
+.mv-grid{display:grid;gap:var(--s7)}
+@media (min-width:900px){.mv-grid{grid-template-columns:1fr 1fr;gap:var(--s5)}}
+.mv-grid .reel-feature strong{font-size:clamp(26px,2.8vw,44px)}
+.mv-grid .play-dot{width:clamp(48px,4.6vw,64px)}
+.mv-credit{font-size:14px;color:var(--ink-soft);max-width:56ch}
+.mv-credit b{color:var(--ink);font-weight:600}
 @media (max-width:640px){.reel-feature small{display:none}}
 
 /* ---------- contact ---------- */
@@ -529,16 +535,28 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
     <h2 id="pitt-title">Filmed by Pitt.</h2>
     <div>
       <p>Pitt Delcano is the filmmaker behind LNB. He shoots and edits much of what you see here himself, from same-day wedding edits to brand commercials.</p>
-      <p>Recent credits include director of photography and editor on the "BISAYA EXCELLENCE" music video, and the LYVEFEST Davao 2026 recap.</p>
+      <p>Recent credits include directing Wolbsgvng's "FORZASPEEDTRAP" music video, director of photography and editor on "BISAYA EXCELLENCE", and the LYVEFEST Davao 2026 recap.</p>
       <a class="tag" href="https://www.instagram.com/pittdelcano/" target="_blank" rel="noopener">@pittdelcano on Instagram</a>
     </div>
   </div>
   <div class="wrap mv">
-    <button class="reel-feature" type="button" data-play="8rOMhdpUw40" data-title="Delinquent Society · NAKA BLACK (Official Music Video)">
-      <img src="assets/img/mv-naka-black.webp" srcset="assets/img/mv-naka-black-s.webp 640w, assets/img/mv-naka-black.webp 1280w" sizes="(min-width:1440px) 1330px, 94vw" width="1280" height="720" alt="" loading="lazy">
-      <span class="play"><span class="play-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><span><strong>NAKA BLACK</strong><small>Delinquent Society · Official music video · plays on YouTube</small></span></span>
-    </button>
-    <p class="mv-credit">Delinquent Society, "NAKA BLACK" (official music video, July 2025). Shot and edited by Pitt Delcano (LNB Media), directed by Burbankzzz.</p>
+    <h3>Music videos</h3>
+    <div class="mv-grid">
+      <div>
+        <button class="reel-feature" type="button" data-play="mwhrkshJxe4" data-title="Wolbsgvng · FORZASPEEDTRAP (Official Music Video)">
+          <img src="assets/img/mv-forzaspeedtrap.webp" srcset="assets/img/mv-forzaspeedtrap-s.webp 640w, assets/img/mv-forzaspeedtrap.webp 1280w" sizes="(min-width:900px) 46vw, 94vw" width="1280" height="720" alt="" loading="lazy">
+          <span class="play"><span class="play-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><span><strong>FORZASPEEDTRAP</strong><small>Wolbsgvng · plays on YouTube</small></span></span>
+        </button>
+        <p class="mv-credit">Wolbsgvng, "FORZASPEEDTRAP" (official music video, May 2025). <b>Directed by Pitt Delcano.</b></p>
+      </div>
+      <div>
+        <button class="reel-feature" type="button" data-play="8rOMhdpUw40" data-title="Delinquent Society · NAKA BLACK (Official Music Video)">
+          <img src="assets/img/mv-naka-black.webp" srcset="assets/img/mv-naka-black-s.webp 640w, assets/img/mv-naka-black.webp 1280w" sizes="(min-width:900px) 46vw, 94vw" width="1280" height="720" alt="" loading="lazy">
+          <span class="play"><span class="play-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><span><strong>NAKA BLACK</strong><small>Delinquent Society · plays on YouTube</small></span></span>
+        </button>
+        <p class="mv-credit">Delinquent Society, "NAKA BLACK" (official music video, July 2025). <b>Shot and edited by Pitt Delcano</b> (LNB Media), directed by Burbankzzz.</p>
+      </div>
+    </div>
   </div>
 </section>
 
