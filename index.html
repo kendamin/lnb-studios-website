@@ -174,10 +174,14 @@ p{margin:0;text-wrap:pretty}
 .films-grid figure{margin:0}
 .films-grid figure img{width:100%;border-radius:4px}
 .films-grid figcaption{font-size:13px;color:var(--ink-soft);margin-top:10px}
-.what{display:grid;gap:var(--s6)}
-.what dl{margin:0;display:grid;gap:var(--s5)}
-.what dt{font:800 26px/1.05 var(--display);font-stretch:82%}
-.what dd{margin:6px 0 0;color:var(--ink-soft);max-width:48ch}
+.what{display:grid;gap:var(--s4)}
+.what h3{font-size:clamp(28px,3vw,40px);font-stretch:78%}
+.book-list{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3)}
+.book-card{display:grid;gap:10px;padding:20px 22px 22px;border:1px solid #3A3934;border-left:4px solid var(--accent);border-radius:var(--r-out);background:var(--surface)}
+.book-card h4{margin:0;font:800 clamp(26px,2.4vw,32px)/1.05 var(--display);font-stretch:80%;letter-spacing:-.01em}
+.book-card p{color:#C9C5BC;max-width:48ch}
+.book-card .btn{justify-self:start;margin-top:6px;min-height:44px}
+.book-note{font-size:14px;color:var(--ink-soft)}
 .credits{margin-top:var(--s9);text-align:center;display:grid;gap:var(--s6)}
 .credits h3{font:600 13px/1 var(--text);letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft)}
 .credits ul{list-style:none;margin:0;padding:0;display:grid;gap:var(--s4)}
@@ -439,12 +443,25 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
         <figcaption>Sherissa and Alfonso, pre-wedding film grabs.</figcaption>
       </figure>
       <div class="what">
-        <dl>
-          <div><dt>Same-day edit</dt><dd>The wedding filmed and edited on the day, ready to play for your guests.</dd></div>
-          <div><dt>Pre-wedding film</dt><dd>A short, cinematic film of the two of you before the big day.</dd></div>
-          <div><dt>Debut film</dt><dd>Eighteenth-birthday coverage with a same-day edit, like "Iana at eighteen".</dd></div>
-        </dl>
-        <div><a class="btn btn-main" href="#start" data-crew="films">Ask about your date</a></div>
+        <h3>Book LNB Films for</h3>
+        <ul class="book-list">
+          <li class="book-card">
+            <h4>Same-day edit</h4>
+            <p>Your wedding filmed and edited on the day, ready to play for your guests at the reception.</p>
+            <a class="btn btn-main" href="#start" data-crew="films" data-service="Same-day edit">Book a same-day edit</a>
+          </li>
+          <li class="book-card">
+            <h4>Pre-wedding film</h4>
+            <p>A short, cinematic film of the two of you before the big day.</p>
+            <a class="btn btn-main" href="#start" data-crew="films" data-service="Pre-wedding film">Book a pre-wedding film</a>
+          </li>
+          <li class="book-card">
+            <h4>Debut film</h4>
+            <p>Eighteenth-birthday coverage with a same-day edit, like "Iana at eighteen".</p>
+            <a class="btn btn-main" href="#start" data-crew="films" data-service="Debut film">Book a debut film</a>
+          </li>
+        </ul>
+        <p class="book-note">Message us your date and venue to check availability.</p>
       </div>
     </div>
     <div class="credits">
@@ -682,16 +699,18 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
     woh:    { name: "WeOutHerePH", ig: "weouthereph",  sub: "Nights, collabs and community events." }
   };
   let crew = "media";
-  function setCrew(key) {
-    crew = key; const c = CREWS[key];
+  let service = "";
+  const subject = () => "Project inquiry: " + CREWS[crew].name + (service ? ", " + service : "");
+  function setCrew(key, svc = "") {
+    crew = key; service = svc; const c = CREWS[key];
     $("#sendIg").href = `https://ig.me/m/${c.ig}`;
-    $("#sendMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent("Project inquiry: " + c.name)}`;
-    $("#sendTo").textContent = `Goes to @${c.ig}`;
+    $("#sendMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent(subject())}`;
+    $("#sendTo").textContent = `Goes to @${c.ig}` + (svc ? ` · about a ${svc.toLowerCase()}` : "");
   }
   document.querySelectorAll('input[name="crew"]').forEach(r => r.addEventListener("change", () => setCrew(r.value)));
   document.querySelectorAll("a[data-crew]").forEach(a => a.addEventListener("click", () => {
     const r = document.querySelector(`input[name="crew"][value="${a.dataset.crew}"]`);
-    r.checked = true; setCrew(a.dataset.crew);
+    r.checked = true; setCrew(a.dataset.crew, a.dataset.service || "");
   }));
 
   // ---- Message chooser: Instagram / Messenger links open it first (no JS: the plain links still work)
@@ -707,7 +726,7 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
     $("#msgSub").textContent = c.sub;
     $("#msgIg").href = `https://ig.me/m/${c.ig}`;
     $("#msgIg").textContent = `Message @${c.ig} on Instagram`;
-    $("#msgMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent("Project inquiry: " + c.name)}`;
+    $("#msgMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent(subject())}`;
     msg.showModal();
     $("#msgIg").focus();
   });
