@@ -119,14 +119,13 @@ p{margin:0;text-wrap:pretty}
 .gate-item h3{font-size:clamp(40px,6vw,84px);font-stretch:72%;margin-top:8px}
 .gate-item p{color:var(--ink-soft);max-width:44ch;margin-top:12px}
 .gate-item .go{display:inline-flex;margin-top:var(--s4);font-weight:600;text-underline-offset:5px}
-.gate-item[data-fmt="media"] figure{aspect-ratio:9/16;max-width:min(360px,70vw)}
+.gate-item[data-fmt="media"] figure{aspect-ratio:16/9}
 .gate-item[data-fmt="films"] figure{aspect-ratio:2.39/1}
 .gate-item[data-fmt="studio"] figure{aspect-ratio:4/5;max-width:520px}
 .gate-item[data-fmt="woh"] figure{aspect-ratio:4/3;max-width:760px}
 @media (min-width:900px){
   .gate .gate-item{grid-template-columns:1fr 1.5fr;align-items:center;column-gap:var(--s8)}
   .gate .gate-item figure{order:2;justify-self:center;width:100%}
-  .gate .gate-item[data-fmt="media"] figure{width:min(360px,100%)}
 }
 
 /* ---------- media: showreel + snap rail ---------- */
@@ -346,7 +345,7 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
       <div class="gate-intro"><h2 id="gate-title">Four kinds of work, one team.</h2></div>
       <ol class="gate-list">
         <li class="gate-item" data-fmt="media" data-ratio="0.5625">
-          <figure><img src="assets/img/yt-a6piUYGbzeg.webp" width="1280" height="720" alt="The Crazy Bite Co. team raise their fists on a rooftop, from their anniversary video." loading="lazy" style="object-position:58% 50%"></figure>
+          <figure><img src="assets/img/yt-1561Nepoggw.webp" srcset="assets/img/yt-1561Nepoggw-s.webp 640w, assets/img/yt-1561Nepoggw.webp 1280w" sizes="(min-width:900px) 56vw, 94vw" width="1280" height="720" alt="Psyche Clothing commercial by LNB Media: a man in a bucket hat sits on a skateboard on an outdoor court." loading="lazy"></figure>
           <div class="cap">
             <h3>LNB Media</h3>
             <p>Content for brands: commercials, product videos, campaign shoots and event recaps, cut for the feed.</p>
@@ -362,7 +361,7 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
           </div>
         </li>
         <li class="gate-item" data-fmt="studio" data-ratio="0.8">
-          <figure><img src="assets/img/studio-blazer.webp" width="534" height="711" alt="Studio portrait of a woman in an oversized black blazer against a light grey backdrop." loading="lazy" style="object-position:50% 30%"></figure>
+          <figure><img src="assets/img/studio-room.webp" width="570" height="711" alt="Inside LNB Studio: white walls, framed art, a record, an arched mirror, a keyboard, a chair and plants." loading="lazy"></figure>
           <div class="cap">
             <h3>LNB Studio</h3>
             <p>A studio designed for creatives, built for expression. Portraits, families, athletes and themed sets.</p>
@@ -504,7 +503,6 @@ dialog::backdrop{background:rgba(8,8,7,.82)}
     </div>
     <ul class="gallery" id="studioGal" aria-label="LNB Studio photos">
       <li><figure><img src="assets/img/studio-christmas.webp" width="442" height="664" alt="A family of four sits in front of a red velvet curtain, Christmas tree and wreath." loading="lazy"><figcaption>Red Christmas set, 2026</figcaption></figure></li>
-      <li><figure><img src="assets/img/studio-room.webp" width="570" height="711" alt="The LNB Studio lounge: white walls, framed art, a record, an arched mirror, a keyboard and plants." loading="lazy"><figcaption>The studio space</figcaption></figure></li>
       <li><figure><img src="assets/img/studio-flower.webp" width="532" height="711" alt="A smiling woman in a white hijab holds a pink gerbera against a pale yellow backdrop." loading="lazy"><figcaption>Portrait session</figcaption></figure></li>
       <li><figure><img src="assets/img/studio-hat.webp" width="570" height="711" alt="A young woman in a black wide-brim hat and leather dress poses on a white backdrop." loading="lazy"><figcaption>Fashion portrait</figcaption></figure></li>
       <li><figure><img src="assets/img/studio-swim.webp" width="570" height="711" alt="A triathlete in a swim cap lifts her goggles against a sky-blue backdrop." loading="lazy"><figcaption>Athlete portrait, Black Cat Tri</figcaption></figure></li>
