@@ -16,7 +16,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,400&display=swap" rel="stylesheet">
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script>
   // lens mode: the pinned 3D crews section, only when motion is allowed
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("lens-mode");
@@ -128,10 +127,9 @@ p{margin:0;text-wrap:pretty}
 .lens-mode .crew-step .photo{max-width:420px}
 .lens-mode .crew-step .photo img{aspect-ratio:auto;height:clamp(130px,26svh,236px);object-fit:cover}
 .lens-mode .crews-visual{display:block;position:relative;height:min(78svh,720px)}
-.crews-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.crews-visual .halo{position:absolute;inset:12% 10%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);filter:blur(10px);transform:translateY(18%) scaleY(.22)}
-.no-gl .crews-visual{display:none}
-.no-gl.lens-mode .crews-grid{grid-template-columns:1fr}
+/* the turntable: 96 real frames of the camera, scrubbed by scroll; the edges melt into the page and its particles */
+.crews-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
+  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 58%,transparent 100%)}
 @media (max-width:899px){
   .lens-mode .crews-grid{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:4px;padding-top:76px;align-content:start}
   .lens-mode .crews-visual{order:-1;height:27svh}
@@ -380,7 +378,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
           </li>
         </ol>
       </div>
-      <div class="crews-visual" aria-hidden="true"><div class="halo"></div><canvas id="lens"></canvas></div>
+      <div class="crews-visual" aria-hidden="true"><canvas id="turn"></canvas></div>
     </div>
   </div>
 </section>
@@ -661,16 +659,43 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
     rw = innerWidth; rh = innerHeight; field.size(); if (reduce) field.still();
   });
 
-  // ---- 2 · crews: GSAP ScrollTrigger drives the text and the lens shape together
-  // camera poses per crew (rotation, lens zoom, REC light); camera.js reads the same object
-  const STATES = {
-    media:  { ry: -2.45, rx: 0.20, lens: 1.00, rec: 0 },
-    films:  { ry: -1.42, rx: 0.06, lens: 1.75, rec: 0 },
-    studio: { ry:  0.55, rx: 0.14, lens: 0.72, rec: 0 },
-    woh:    { ry:  2.70, rx: 0.22, lens: 1.00, rec: 1 }
-  };
-  const lensState = Object.assign({}, STATES.media);
-  let rig3d = null;
+  // ---- 2 · crews: GSAP ScrollTrigger drives the text and the camera turntable together
+  // 96 frames of one 360-degree turn; each crew is a quarter turn: Media front, Films side, Studio back, Nights other side
+  const FRAMES = 96, STATES = { media: { frame: 0 }, films: { frame: 24 }, studio: { frame: 48 }, woh: { frame: 72 } };
+  const lensState = { frame: 0 };
+  function turntable(canvas) {
+    const dir = "../assets/turn/" + (small ? "m" : "d") + "/";
+    const imgs = new Array(FRAMES), ctx = canvas.getContext("2d");
+    let shown = -1, cur = 0, raf = 0;
+    const src = i => dir + String(i + 1).padStart(3, "0") + ".webp";
+    const load = i => { if (imgs[i]) return; const im = new Image(); im.decoding = "async"; im.onload = () => { if (i === Math.round(cur) % FRAMES) draw(true); }; im.src = src(i); imgs[i] = im; };
+    function size() {
+      const d = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = Math.round(canvas.clientWidth * d); canvas.height = Math.round(canvas.clientHeight * d);
+      shown = -1; draw(true);
+    }
+    // nearest frame that has loaded, so a fast scroll never shows a blank
+    function pick(i) { for (let k = 0; k < FRAMES; k++) { const a = imgs[(i + k) % FRAMES], b = imgs[(i - k + FRAMES) % FRAMES]; if (a && a.complete && a.naturalWidth) return a; if (b && b.complete && b.naturalWidth) return b; } return null; }
+    function draw(force) {
+      const i = ((Math.round(cur) % FRAMES) + FRAMES) % FRAMES;
+      if (i === shown && !force) return;
+      const im = pick(i); if (!im) return;
+      shown = i;
+      const W = canvas.width, H = canvas.height, s = Math.min(W / im.naturalWidth, H / im.naturalHeight) * 1.08;
+      const w = im.naturalWidth * s, h = im.naturalHeight * s;
+      ctx.fillStyle = "#121110"; ctx.fillRect(0, 0, W, H);
+      ctx.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
+    }
+    // ease toward the scroll's frame so the turn feels like a smooth turntable, not a flip-book
+    function tick() { cur += (lensState.frame - cur) * 0.18; if (Math.abs(lensState.frame - cur) < 0.02) cur = lensState.frame; draw(); raf = Math.abs(lensState.frame - cur) > 0.02 ? requestAnimationFrame(tick) : 0; }
+    load(0); size();
+    addEventListener("resize", size);
+    // the rest load after the page is up (about 1.2 MB desktop, 0.6 MB phone)
+    const rest = () => { for (let i = 1; i < FRAMES; i++) load(i); };
+    document.readyState === "complete" ? setTimeout(rest, 300) : addEventListener("load", () => setTimeout(rest, 300));
+    return { update() { if (!raf) raf = requestAnimationFrame(tick); } };
+  }
+  let turn = null;
   const html = document.documentElement;
   if (html.classList.contains("lens-mode")) {
     if (!window.gsap || !window.ScrollTrigger) html.classList.remove("lens-mode");
@@ -684,15 +709,15 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
         scrollTrigger: {
           trigger: "#crews", start: "top top", end: "bottom bottom", scrub: 0.6,
           onUpdate: self => {
+            if (turn) turn.update();
             const i = Math.min(3, Math.round(self.progress * 3));
             tabs.forEach((t, n) => t.setAttribute("aria-current", n === i ? "true" : "false"));
-            if (rig3d) rig3d.setScreen(i);
           }
         }
       });
       for (let i = 1; i < steps.length; i++) {
         const at = i - 1;
-        tl.to(lensState, Object.assign({ duration: 1 }, STATES[keys[i]]), at)
+        tl.to(lensState, { frame: STATES[keys[i]].frame, duration: 1, onUpdate: () => turn && turn.update() }, at)
           .to(steps[i - 1], { autoAlpha: 0, y: -20, duration: 0.3 }, at + 0.35)
           .fromTo(steps[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3 }, at + 0.6);
       }
@@ -703,12 +728,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
       // the crews' nav links skip past the pinned section to their chapters, so nothing else needs refreshing
       addEventListener("load", () => ScrollTrigger.refresh());
 
-      // Three.js is ~170 KB: load it after the page is up
-      const loadLens = () => import("./camera.js")
-        .then(m => { rig3d = m.createCamera($("#lens"), lensState); })
-        .catch(() => { html.classList.add("no-gl"); });
-      const go = () => ("requestIdleCallback" in window ? requestIdleCallback(loadLens, { timeout: 2000 }) : setTimeout(loadLens, 600));
-      document.readyState === "complete" ? go() : addEventListener("load", go);
+      turn = turntable($("#turn"));
     }
   }
 
