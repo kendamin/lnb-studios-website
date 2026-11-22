@@ -64,7 +64,7 @@
 
     function size() {
       const r = canvas.getBoundingClientRect();
-      dpr = Math.min(window.devicePixelRatio || 1, o.count > 1200 ? 1.5 : 1.25);
+      dpr = Math.min(window.devicePixelRatio || 1, o.maxDpr || (o.count > 1200 ? 1.5 : 1.25));
       W = Math.max(1, r.width); H = Math.max(1, r.height);
       canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);

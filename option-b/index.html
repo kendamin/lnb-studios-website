@@ -148,6 +148,11 @@ p{margin:0;text-wrap:pretty}
   .lens-mode .crew-step p{font-size:16px}
 }
 
+/* ---------- flowing lines behind every section (same Aperture Drift field, its own seed each) ---------- */
+.sec,.crews-stage{position:relative;isolation:isolate}
+.sec{overflow:clip}
+.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+
 /* ---------- section scaffolding ---------- */
 .sec{padding-block:clamp(88px,11vw,160px)}
 .sec-head{display:grid;gap:20px;margin-bottom:clamp(40px,5vw,72px)}
@@ -333,6 +338,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 <!-- 2 · four crews, one lens -->
 <section class="crews" id="crews" aria-labelledby="crews-title">
   <div class="crews-stage">
+    <canvas class="fx" aria-hidden="true"></canvas>
     <div class="wrap crews-grid">
       <div class="crews-copy">
         <div class="crews-head">
@@ -379,6 +385,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 3 · media -->
 <section class="sec" id="media" aria-labelledby="media-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -408,6 +415,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 4 · films -->
 <section class="sec films" id="films" aria-labelledby="films-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -431,6 +439,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 5 · studio -->
 <section class="sec" id="studio" aria-labelledby="studio-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -467,6 +476,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 6 · we out here -->
 <section class="sec woh" id="woh" aria-labelledby="woh-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -496,6 +506,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 7 · pitt -->
 <section class="sec" id="pitt" aria-labelledby="pitt-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="pitt-grid">
       <div style="display:grid;gap:18px;align-content:start">
@@ -530,6 +541,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 8 · contact -->
 <section class="sec contact" id="start" aria-labelledby="start-title">
+  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <h2 class="h2" id="start-title">Start a project.</h2>
     <p class="lede" style="margin-top:20px">Pick the crew, then send a message. No forms, no prices online: tell us what you're making and when.</p>
@@ -623,6 +635,40 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
     document.addEventListener("visibilitychange", () => document.hidden ? flow.stop() : onScreen && flow.start());
     flow.start();
   }
+  // ---- the same flowing lines behind every section: created when a section comes near, animated only while on screen
+  const FX = {
+    crews:  { seed: 7,  lensX: small ? 0.5 : 0.74, lensY: small ? 0.24 : 0.52, lensR: small ? 0.3 : 0.24 },
+    media:  { seed: 23, lensX: 0.8, lensY: 0.16 },
+    films:  { seed: 61, lensX: 0.62, lensY: 0.14, ground: "#ECE6DC", ink: "18,17,16", inkAlpha: 0.3, redShare: 0.06 },
+    studio: { seed: 34, lensX: 0.62, lensY: 0.12 },
+    woh:    { seed: 99, lensX: 0.7, lensY: 0.16, ground: "#080707", redShare: 0.22 },
+    pitt:   { seed: 12, lensX: 0.86, lensY: 0.22 },
+    start:  { seed: 82, lensX: 0.76, lensY: 0.36, ground: "#080707" }
+  };
+  document.querySelectorAll("canvas.fx").forEach(cv => {
+    const sec = cv.closest("section"), cfg = FX[sec.id];
+    let f = null, on = false, lastW = 0, lastH = 0;
+    // same line density as the hero, whatever the section's height (capped for phones)
+    const count = () => Math.round(Math.min(small ? 1500 : 4200, (cv.clientWidth * cv.clientHeight) / (small ? 390 * 844 : 1440 * 900) * (small ? 650 : 2200)));
+    const make = () => {
+      f = LNBFlow.create(cv, Object.assign({ count: count(), inkAlpha: 0.42, lensR: 0.2, maxDpr: 1 }, cfg));
+      lastW = cv.clientWidth; lastH = cv.clientHeight;
+      if (reduce) f.still(); else f.pointer(sec);
+    };
+    new IntersectionObserver(([e]) => {
+      on = e.isIntersecting;
+      if (on && !f) make();
+      if (f && !reduce) (on && !document.hidden ? f.start() : f.stop());
+    }, { rootMargin: "120px 0px" }).observe(cv);
+    document.addEventListener("visibilitychange", () => { if (f && !reduce) (document.hidden ? f.stop() : on && f.start()); });
+    // sections grow as photos load: redraw at the new size
+    new ResizeObserver(() => {
+      if (!f || (Math.abs(cv.clientWidth - lastW) < 40 && Math.abs(cv.clientHeight - lastH) < 40)) return;
+      lastW = cv.clientWidth; lastH = cv.clientHeight;
+      f.size(); f.set({ seed: cfg.seed, count: count() }); if (reduce) f.still();
+    }).observe(cv);
+  });
+
   let rw = innerWidth;
   addEventListener("resize", () => { if (Math.abs(innerWidth - rw) < 40) return; rw = innerWidth; flow.size(); flow.set({ seed: 82 }); if (reduce) flow.still(); });
 
