@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en" data-type="service">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>LNB Studios · Davao City</title>
+<meta name="description" content="LNB Studios, Davao City: brand films by LNB Media, wedding films by LNB Films, portraits at LNB Studio, and WeOutHerePH community nights.">
+<meta name="page-type" content="service">
+<meta name="site-kind" content="other">
+<meta name="theme-color" content="#EEE7DC">
+<meta property="og:title" content="LNB Studios · Davao City">
+<meta property="og:description" content="Brand films, wedding films, studio portraits and community nights. Davao City.">
+<meta property="og:image" content="../assets/img/films-vere.webp">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23EEE7DC'/%3E%3Ccircle cx='32' cy='32' r='17' fill='%2315120F'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23D2321F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,400&display=swap" rel="stylesheet">
+<script>
+  // lens mode: the pinned 3D crews section, only when motion is allowed
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("lens-mode");
+</script>
+<style>
+/* =========================================================
+   LNB Studios · Option B
+   kind: service (creative studio) · palette: sand + ink, one red
+   type: Host Grotesk · radius: soft
+   ========================================================= */
+:root{
+  --sand:#EEE7DC; --sand-2:#E5DCCE; --card:#F8F4EE; --line:#D4C8B7;
+  --ink:#15120F; --ink-2:#5A5149; --red:#D2321F; --red-2:#B52715;
+  --night:#120F0D; --night-2:#1E1916; --night-ink:#F1EAE0; --night-soft:#AFA295; --night-line:#352C27;
+  --font:"Host Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gutter:clamp(16px,4vw,48px); --max:1320px;
+  --r:18px; --r-sm:12px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:76px}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--sand);color:var(--ink);font:400 17px/1.6 var(--font);-webkit-font-smoothing:antialiased;overflow-x:clip}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-weight:600;letter-spacing:-.03em;line-height:1.02;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+.wrap{width:100%;max-width:calc(var(--max) + var(--gutter)*2);margin-inline:auto;padding-inline:var(--gutter)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--sand);padding:10px 14px;border-radius:10px;font-weight:600}
+.skip:focus{top:12px}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
+.eyebrow{font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--ink-2)}
+.h2{font-size:clamp(38px,5.2vw,76px)}
+.lede{font-size:clamp(17px,1.4vw,20px);color:var(--ink-2);max-width:56ch}
+
+/* buttons: one pair, they step on hover and press on click */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;font:600 15px/1 var(--font);text-decoration:none;border:1.5px solid transparent;cursor:pointer;transition:transform .2s var(--ease),background-color .2s,border-color .2s,color .2s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0) scale(.97)}
+.btn-main{background:var(--ink);color:var(--sand)}
+.btn-main:hover{background:var(--red)}
+.btn-line{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-line:hover{background:var(--ink);color:var(--sand)}
+.link{font-weight:600;text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1.5px no-repeat;padding-bottom:2px;transition:background-size .3s var(--ease)}
+.link:hover{background-size:100% 1.5px}
+
+/* ---------- nav ---------- */
+.nav{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .3s,box-shadow .3s}
+.nav.is-solid{background:rgba(238,231,220,.9);box-shadow:0 1px 0 var(--line)}
+@supports (backdrop-filter:blur(1px)){.nav.is-solid{background:rgba(238,231,220,.72);backdrop-filter:blur(14px) saturate(1.2)}}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px;letter-spacing:-.02em}
+.mark i{width:22px;height:22px;border-radius:50%;background:var(--ink);display:grid;place-items:center}
+.mark i::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--red)}
+.nav-links{display:none;gap:4px;margin-left:auto}
+.nav-links a{text-decoration:none;font-size:15px;font-weight:500;padding:10px 12px;border-radius:999px;transition:background-color .2s}
+.nav-links a:hover{background:rgba(21,18,15,.07)}
+.nav .btn{margin-left:auto;min-height:44px;padding:0 18px;font-size:14px;white-space:nowrap}
+@media (min-width:1000px){.nav-links{display:flex}.nav .btn{margin-left:8px}}
+
+/* ---------- 1 · hero: generative "Aperture Drift" ground ---------- */
+.hero{position:relative;min-height:100svh;display:grid;align-items:end;overflow:clip;isolation:isolate}
+.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}
+.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:linear-gradient(90deg,var(--sand) 0%,rgba(238,231,220,.92) 30%,rgba(238,231,220,.55) 52%,rgba(238,231,220,0) 70%)}
+.hero-inner{padding-block:120px clamp(40px,7vh,80px);display:grid;gap:28px}
+.hero h1{font-size:clamp(46px,6.6vw,108px);font-weight:600;letter-spacing:-.045em;line-height:.96;max-width:12.5ch}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero .lede{max-width:46ch;color:#3E3731}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.fact{justify-self:start;display:inline-flex;align-items:center;gap:12px;padding:8px 16px 8px 8px;border-radius:999px;background:rgba(248,244,238,.85);border:1px solid var(--line);font-size:14px;text-decoration:none;cursor:pointer;font-family:inherit;color:inherit;transition:transform .2s var(--ease)}
+.fact:hover{transform:translateY(-2px)}
+.fact b{background:var(--red);color:#fff;border-radius:999px;padding:6px 10px;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+@media (max-width:760px){
+  .hero::before{background:linear-gradient(0deg,var(--sand) 0%,rgba(238,231,220,.94) 42%,rgba(238,231,220,.4) 62%,rgba(238,231,220,0) 78%)}
+  .hero-inner{padding-top:52svh}
+  .hero-actions .btn{flex:1 1 100%}
+}
+@media (prefers-reduced-motion:no-preference){
+  .enter{animation:enter .9s var(--ease) both}
+  .enter:nth-child(2){animation-delay:.08s}.enter:nth-child(3){animation-delay:.16s}.enter:nth-child(4){animation-delay:.24s}
+  @keyframes enter{from{opacity:0;transform:translateY(22px)}}
+}
+
+/* ---------- 2 · four crews, one lens (Three.js + GSAP ScrollTrigger) ---------- */
+.crews{position:relative;background:var(--sand)}
+.crews-stage{padding-block:clamp(72px,10vw,128px)}
+.crews-grid{display:grid;gap:40px}
+.crews-copy{display:grid;gap:44px}
+.crews-head{display:grid;gap:18px;max-width:30ch}
+.crew-tabs{display:none}
+.crew-steps{list-style:none;margin:0;padding:0;display:grid;gap:56px}
+.crew-step{display:grid;gap:14px;max-width:520px}
+.crew-step h3{font-size:clamp(28px,3vw,44px)}
+.crew-step p{color:var(--ink-2)}
+.crew-step .photo{border-radius:var(--r);overflow:hidden;background:var(--sand-2);margin-top:6px}
+.crew-step .photo img{width:100%;aspect-ratio:16/10;object-fit:cover}
+.crews-visual{display:none}
+.lens-mode .crews{height:400svh}
+.lens-mode .crews-stage{position:sticky;top:0;height:100svh;padding:0;display:grid;align-items:center}
+.lens-mode .crews-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;height:100%;padding-top:68px}
+.lens-mode .crews-copy{display:grid;gap:28px;align-content:center}
+.lens-mode .crew-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.crew-tabs button{font:600 14px/1 var(--font);padding:10px 14px;min-height:40px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink-2);cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.crew-tabs button:hover{border-color:var(--ink);color:var(--ink)}
+.crew-tabs button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--sand)}
+.lens-mode .crew-steps{display:grid;gap:0}
+.lens-mode .crew-step{grid-area:1/1}
+.lens-mode .crew-step:not(:first-child){visibility:hidden;opacity:0}
+.lens-mode .crew-step .photo{max-width:420px}
+.lens-mode .crew-step .photo img{aspect-ratio:16/9}
+@media (max-height:820px){.lens-mode .crew-step .photo{display:none}}
+.lens-mode .crews-visual{display:block;position:relative;height:min(78svh,720px)}
+.crews-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.crews-visual .halo{position:absolute;inset:12% 10%;border-radius:50%;background:radial-gradient(closest-side,rgba(21,18,15,.10),transparent);filter:blur(10px);transform:translateY(18%) scaleY(.22)}
+.no-gl .crews-visual{display:none}
+.no-gl.lens-mode .crews-grid{grid-template-columns:1fr}
+@media (max-width:899px){
+  .lens-mode .crews-grid{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:4px;padding-top:76px;align-content:start}
+  .lens-mode .crews-visual{order:-1;height:34svh}
+  .lens-mode .crews-copy{gap:18px;align-content:start}
+  .lens-mode .crews-head .h2{font-size:clamp(30px,8vw,40px)}
+  .lens-mode .crews-head .eyebrow{display:none}
+  .lens-mode .crew-step .photo{display:none}
+  .lens-mode .crew-step h3{font-size:26px}
+  .lens-mode .crew-step p{font-size:16px}
+}
+
+/* ---------- section scaffolding ---------- */
+.sec{padding-block:clamp(88px,11vw,160px)}
+.sec-head{display:grid;gap:20px;margin-bottom:clamp(40px,5vw,72px)}
+@media (min-width:1000px){.sec-head.split{grid-template-columns:1.1fr 1fr;align-items:end;column-gap:64px}}
+.frame{border-radius:var(--r);overflow:hidden;background:var(--sand-2)}
+.frame img{transition:transform .6s var(--ease)}
+a:hover .frame img,button:hover .frame img,.frame:hover img{transform:scale(1.03)}
+
+/* ---------- 3 · media ---------- */
+.reel{position:relative;display:block;width:100%;padding:0;border:0;background:var(--ink);border-radius:var(--r);overflow:hidden;cursor:pointer;color:#fff;text-align:left;font:inherit}
+.reel img{width:100%;aspect-ratio:16/9;object-fit:cover;opacity:.82;transition:transform .6s var(--ease),opacity .3s}
+.reel:hover img{transform:scale(1.03);opacity:.92}
+.reel .play{position:absolute;left:clamp(16px,3vw,36px);bottom:clamp(16px,3vw,36px);display:flex;align-items:center;gap:16px}
+.dot{width:clamp(52px,5.5vw,76px);aspect-ratio:1;border-radius:50%;background:var(--red);display:grid;place-items:center;flex:none;transition:transform .25s var(--ease)}
+.reel:hover .dot{transform:scale(1.06)}
+.dot svg{width:36%;height:36%;margin-left:8%;color:#fff}
+.reel strong{display:block;font-size:clamp(24px,3.2vw,46px);font-weight:600;letter-spacing:-.03em;line-height:1;text-shadow:0 2px 18px rgba(0,0,0,.4)}
+.films-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:20px;margin-top:20px;list-style:none;padding:0}
+.film{display:grid;gap:12px;width:100%;padding:0;border:0;background:none;text-align:left;font:inherit;color:inherit;cursor:pointer;transition:transform .25s var(--ease)}
+.film:hover{transform:translateY(-2px)}
+.film .frame{position:relative}
+.film img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.film .frame::after{content:"";position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l11-6.5z' fill='%23fff'/%3E%3C/svg%3E") 55% 50%/15px no-repeat}
+.film strong{display:block;font-weight:600;font-size:17px;line-height:1.3}
+.film span{font-size:14px;color:var(--ink-2)}
+.clients{display:flex;flex-wrap:wrap;gap:10px;list-style:none;margin:40px 0 0;padding:0}
+.clients li{border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;font-size:15px;font-weight:500}
+
+/* ---------- 4 · films (card surface) ---------- */
+.films{background:var(--card)}
+.films-hero img{width:100%;aspect-ratio:21/9;object-fit:cover}
+@media (max-width:760px){.films-hero img{aspect-ratio:4/3}}
+.book{display:grid;gap:20px;margin-top:20px;list-style:none;padding:0}
+@media (min-width:900px){.book{grid-template-columns:repeat(3,1fr)}}
+.book li{display:grid;grid-template-rows:auto 1fr auto;gap:12px;padding:26px;border-radius:var(--r);background:var(--sand);transition:transform .25s var(--ease)}
+.book li:hover{transform:translateY(-2px)}
+.book h3{font-size:clamp(24px,2.2vw,30px)}
+.book p{color:var(--ink-2)}
+.book .btn{justify-self:start;margin-top:8px}
+.book-note{margin-top:20px;color:var(--ink-2);font-size:15px}
+.couples{display:flex;flex-wrap:wrap;gap:6px 0;list-style:none;margin:56px 0 0;padding:28px 0 0;border-top:1.5px solid var(--line);font-size:clamp(20px,2.2vw,30px);font-weight:500;letter-spacing:-.02em}
+.couples li:not(:last-child)::after{content:"·";margin:0 .5em;color:var(--red)}
+
+/* ---------- 5 · studio ---------- */
+.xmas{display:grid;gap:18px;padding:clamp(22px,3vw,40px);border-radius:var(--r);background:var(--red);color:#fff;margin-bottom:28px}
+@media (min-width:900px){.xmas{grid-template-columns:1fr 1.3fr auto;align-items:center;column-gap:48px}}
+.xmas h3{font-size:clamp(28px,3.2vw,46px)}
+.xmas .when{font-weight:700;font-variant-numeric:tabular-nums}
+.xmas p{opacity:.92}
+.xmas .btn-main{background:#fff;color:var(--red-2)}
+.xmas .btn-main:hover{background:var(--ink);color:#fff}
+.xmas :focus-visible{outline-color:#fff}
+.strip{--gh:clamp(300px,52vh,460px);display:flex;gap:14px;list-style:none;margin:0 calc(var(--gutter) * -1);padding:0 var(--gutter) 14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.strip li{flex:none;scroll-snap-align:start}
+.strip .frame img{height:var(--gh);width:auto;max-width:none;object-fit:cover}
+@media (max-width:640px){.strip{--gh:min(400px,60svh)}}
+.strip-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}
+.strip-head h3{font-size:clamp(24px,2.6vw,34px)}
+.arrows{display:none;gap:8px}
+.arrows button{width:46px;height:46px;border-radius:50%;border:1.5px solid currentColor;background:none;color:inherit;cursor:pointer;display:grid;place-items:center;transition:background-color .2s,color .2s,transform .2s var(--ease)}
+.arrows button:hover{background:var(--ink);color:var(--sand)}
+.arrows button:active{transform:scale(.94)}
+.arrows svg{width:18px;height:18px}
+@media (hover:hover) and (min-width:760px){.arrows{display:flex}}
+
+/* ---------- 6 · we out here: the one night band ---------- */
+.woh{background:var(--night);color:var(--night-ink);--ink-2:var(--night-soft);--line:var(--night-line);color-scheme:dark}
+.woh .eyebrow,.woh .lede{color:var(--night-soft)}
+.woh .frame{background:var(--night-2)}
+.woh .arrows button:hover{background:var(--night-ink);color:var(--night)}
+.woh .strip{scrollbar-color:var(--night-line) transparent}
+.venues{display:flex;flex-wrap:wrap;gap:6px 0;margin-top:48px;font-size:clamp(26px,4vw,56px);font-weight:600;letter-spacing:-.035em;line-height:1.1}
+.venues span:not(:last-child)::after{content:"/";margin:0 .35em;color:var(--red);font-weight:400}
+.woh .btn-line{border-color:var(--night-ink);color:var(--night-ink)}
+.woh .btn-line:hover{background:var(--night-ink);color:var(--night)}
+
+/* ---------- 7 · pitt ---------- */
+.pitt-grid{display:grid;gap:28px}
+@media (min-width:1000px){.pitt-grid{grid-template-columns:1fr 1.25fr;column-gap:72px;align-items:start}}
+.pitt-grid p{font-size:clamp(18px,1.5vw,21px);max-width:52ch}
+.pitt-grid p+p{margin-top:16px;color:var(--ink-2);font-size:17px}
+.pitt-grid .link{display:inline-block;margin-top:22px}
+.mv{display:grid;gap:28px;margin-top:clamp(48px,6vw,80px)}
+@media (min-width:900px){.mv{grid-template-columns:1fr 1fr;gap:20px}}
+.mv .reel strong{font-size:clamp(22px,2.6vw,38px)}
+.mv .credit{margin-top:14px;font-size:15px;color:var(--ink-2);max-width:56ch}
+.mv .credit b{color:var(--ink);font-weight:600}
+.views{position:absolute;top:14px;left:14px;padding:8px 12px;border-radius:999px;background:var(--red);color:#fff;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ---------- 8 · contact ---------- */
+.contact{background:var(--ink);color:var(--sand);color-scheme:dark}
+.contact .h2{font-size:clamp(48px,8vw,128px);letter-spacing:-.05em}
+.contact .lede{color:#B9AEA2}
+.pick{border:0;margin:40px 0 0;padding:0;min-width:0}
+.pick legend{font-size:14px;font-weight:600;color:#B9AEA2;margin-bottom:14px;padding:0}
+.crew{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:800px){.crew{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.crew label{position:relative;display:grid;gap:4px;padding:16px;border:1.5px solid #3B342E;border-radius:var(--r-sm);cursor:pointer;transition:border-color .2s,background-color .2s,transform .2s var(--ease)}
+.crew label:hover{transform:translateY(-2px);border-color:#6B6058}
+.crew input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.crew strong{font-size:19px;font-weight:600;letter-spacing:-.02em}
+.crew span{font-size:14px;color:#B9AEA2;line-height:1.35}
+.crew label:has(input:checked){border-color:var(--red);background:#2A1611}
+.crew label:has(input:focus-visible){outline:2px solid var(--red);outline-offset:2px}
+.send{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:28px}
+.contact .btn-main{background:var(--red);color:#fff}
+.contact .btn-main:hover{background:#E8452F}
+.contact .btn-line{border-color:#6B6058;color:var(--sand)}
+.contact .btn-line:hover{background:var(--sand);color:var(--ink);border-color:var(--sand)}
+.send .to{font-size:14px;color:#B9AEA2}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:var(--sand);padding-block:0 calc(40px + env(safe-area-inset-bottom))}
+.foot{display:grid;gap:32px;padding-top:40px;border-top:1px solid #2E2823}
+@media (min-width:900px){.foot{grid-template-columns:1.2fr 2fr}}
+.foot .mark{font-size:22px}
+.foot .mark i{background:var(--sand)}
+.foot small{display:block;margin-top:10px;color:#B9AEA2;font-size:14px}
+.foot-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (min-width:700px){.foot-links{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.foot-links h3{font-size:13px;font-weight:600;letter-spacing:.04em;color:#B9AEA2;margin-bottom:8px}
+.foot-links a{display:block;padding:8px 0;text-decoration:none;font-size:15px}
+.foot-links a:hover{text-decoration:underline;text-underline-offset:4px}
+.foot-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:40px;font-size:13px;color:#B9AEA2}
+.foot-base a{text-underline-offset:3px;padding:6px 0}
+
+/* ---------- dialogs ---------- */
+dialog{border:0;padding:0;color:var(--ink);background:transparent;max-width:none;max-height:none}
+dialog::backdrop{background:rgba(21,18,15,.78)}
+@media (prefers-reduced-motion:no-preference){dialog[open]{animation:pop .25s var(--ease)}@keyframes pop{from{opacity:0;translate:0 12px}}}
+.player{width:min(1100px,94vw)}
+.player-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:10px;color:var(--sand)}
+.player-bar p{font-weight:600}
+.player-box{position:relative;aspect-ratio:16/9;background:#000;border-radius:var(--r);overflow:hidden;display:grid;place-items:center}
+.player-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.loading{display:flex;align-items:center;gap:12px;color:#B9AEA2;font-size:15px}
+.loading i{width:18px;height:18px;border-radius:50%;border:2px solid #4A413A;border-top-color:var(--sand)}
+@media (prefers-reduced-motion:no-preference){.loading i{animation:spin .8s linear infinite}@keyframes spin{to{rotate:360deg}}}
+.x{width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.x svg{width:16px;height:16px}
+.msg{width:min(440px,calc(100vw - 24px));background:var(--card);border-radius:var(--r)}
+.msg-inner{padding:24px;display:grid;gap:12px}
+.msg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.msg-head h2{font-size:28px}
+.msg-head p{color:var(--ink-2);font-size:15px;margin-top:6px}
+.msg .btn{width:100%}
+.msg .btn-main{background:var(--red);color:#fff}
+.msg-note{font-size:14px;background:var(--sand);border-left:3px solid var(--red);border-radius:8px;padding:10px 12px;line-height:1.45;display:grid;gap:4px}
+.msg-note small{font-size:12px;color:var(--ink-2)}
+@media (max-width:600px){.msg{margin:auto auto 0;width:100%;border-radius:var(--r) var(--r) 0 0}.msg-inner{padding-bottom:max(24px,env(safe-area-inset-bottom))}}
+</style>
+</head>
+<body>
+<!-- Option B · kind: service · hero: generative flow field (seed 82) · moment: pinned 3D lens per crew · night band: WeOutHerePH -->
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="LNB Studios, back to top"><i aria-hidden="true"></i>LNB Studios</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#media">Brand films</a><a href="#films">Weddings</a><a href="#studio">Studio</a><a href="#woh">Nights</a><a href="#pitt">Pitt</a>
+    </nav>
+    <a class="btn btn-main" href="#start">Start a project</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 1 · hero -->
+<section class="hero" id="top" aria-labelledby="h1">
+  <canvas id="flow" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <p class="eyebrow enter">LNB Studios · Lens and Beauty · Davao City</p>
+    <h1 id="h1" class="enter">Brand films, weddings and portraits, <em>shot in Davao.</em></h1>
+    <p class="lede enter">One filmmaker's eye behind four crews: LNB Media, LNB Films, LNB Studio and the WeOutHerePH nights.</p>
+    <div class="hero-actions enter">
+      <a class="btn btn-main" href="#start">Start a project</a>
+      <button class="btn btn-line" type="button" data-play="HvxLxsSV4GA" data-title="LNB Media showreel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>Play the showreel</button>
+    </div>
+    <button class="fact enter" type="button" data-play="8rOMhdpUw40" data-title="Delinquent Society · NAKA BLACK (Official Music Video)"><b>1M+ views</b>NAKA BLACK, shot and edited by Pitt Delcano</button>
+  </div>
+</section>
+
+<!-- 2 · four crews, one lens -->
+<section class="crews" id="crews" aria-labelledby="crews-title">
+  <div class="crews-stage">
+    <div class="wrap crews-grid">
+      <div class="crews-copy">
+        <div class="crews-head">
+          <p class="eyebrow">Four crews</p>
+          <h2 class="h2" id="crews-title">Four kinds of work, one lens.</h2>
+        </div>
+        <div class="crew-tabs" role="group" aria-label="Jump to a crew">
+          <button type="button" data-step="0" aria-current="true">Media</button>
+          <button type="button" data-step="1">Films</button>
+          <button type="button" data-step="2">Studio</button>
+          <button type="button" data-step="3">Nights</button>
+        </div>
+        <ol class="crew-steps">
+          <li class="crew-step" data-state="media">
+            <h3>LNB Media</h3>
+            <p>Content for brands: commercials, product videos, campaign shoots and event recaps, cut for the feed.</p>
+            <a class="link" href="#media">See the brand films</a>
+            <div class="photo"><img src="../assets/img/yt-1561Nepoggw-s.webp" width="640" height="360" alt="Psyche Clothing commercial by LNB Media: a man in a bucket hat sits on a skateboard on an outdoor court." loading="lazy"></div>
+          </li>
+          <li class="crew-step" data-state="films">
+            <h3>LNB Films</h3>
+            <p>Weddings and events: same-day edits, pre-wedding films and debut films, across Davao and Mati.</p>
+            <a class="link" href="#films">See the wedding films</a>
+            <div class="photo"><img src="../assets/img/films-vere.webp" width="1411" height="588" alt="Vere and Rea sit on a grassy hill below tall trees, from their pre-wedding film." loading="lazy"></div>
+          </li>
+          <li class="crew-step" data-state="studio">
+            <h3>LNB Studio</h3>
+            <p>A studio designed for creatives, built for expression. Portraits, families, athletes and themed sets.</p>
+            <a class="link" href="#studio">See the studio</a>
+            <div class="photo"><img src="../assets/img/studio-room.webp" width="570" height="711" alt="Inside LNB Studio: white walls, framed art, a record, an arched mirror, a keyboard, a chair and plants." loading="lazy"></div>
+          </li>
+          <li class="crew-step" data-state="woh">
+            <h3>WeOutHerePH</h3>
+            <p>Creating community experience: DJ nights and pop-ups around Davao, with the recaps filmed by LNB Media.</p>
+            <a class="link" href="#woh">See the nights</a>
+            <div class="photo"><img src="../assets/img/woh-booth.webp" width="622" height="350" alt="Fisheye shot of a DJ booth draped with a weouthere banner at night." loading="lazy"></div>
+          </li>
+        </ol>
+      </div>
+      <div class="crews-visual" aria-hidden="true"><div class="halo"></div><canvas id="lens"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · media -->
+<section class="sec" id="media" aria-labelledby="media-title">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div style="display:grid;gap:18px">
+        <p class="eyebrow">LNB Media</p>
+        <h2 class="h2" id="media-title">Commercials for Davao brands, shot and cut in-house.</h2>
+      </div>
+      <p class="lede">"We create content for your brand." Product films, café stories, apparel drops and the behind-the-scenes reels that go with them.</p>
+    </div>
+    <button class="reel" type="button" data-play="HvxLxsSV4GA" data-title="LNB Media showreel">
+      <img src="../assets/img/yt-Zrwy_Ff-NoQ.webp" srcset="../assets/img/yt-Zrwy_Ff-NoQ-s.webp 640w, ../assets/img/yt-Zrwy_Ff-NoQ.webp 1280w" sizes="(min-width:1400px) 1320px, 94vw" width="1280" height="720" alt="" loading="lazy">
+      <span class="play"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><strong>Watch the showreel</strong></span>
+    </button>
+    <ul class="films-row" aria-label="Brand films">
+      <li><button class="film" type="button" data-play="LNWel0dTXkE" data-title="Tomo Kopi · Product commercial"><span class="frame"><img src="../assets/img/yt-LNWel0dTXkE-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Tomo Kopi</strong><span>Product commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="HftNo-wA9Zg" data-title="Tara Kape? · Tomo Kopi commercial"><span class="frame"><img src="../assets/img/yt-HftNo-wA9Zg-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Tara Kape?</strong><span>Tomo Kopi store commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="1561Nepoggw" data-title="Psyche Clothing · Commercial"><span class="frame"><img src="../assets/img/yt-1561Nepoggw-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Psyche Clothing</strong><span>Apparel commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="3aeVpVXpIgs" data-title="Glow Perfect Cotton Candy · Commercial"><span class="frame"><img src="../assets/img/yt-3aeVpVXpIgs-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Glow Perfect Cotton Candy</strong><span>Product commercial</span></span></button></li>
+      <li><button class="film" type="button" data-play="Zrwy_Ff-NoQ" data-title="Crazy Bite Co. · Sky Cafe"><span class="frame"><img src="../assets/img/yt-Zrwy_Ff-NoQ-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Crazy Bite Co. Sky Cafe</strong><span>Café film</span></span></button></li>
+      <li><button class="film" type="button" data-play="a6piUYGbzeg" data-title="Crazy Bite Co. · Anniversary video"><span class="frame"><img src="../assets/img/yt-a6piUYGbzeg-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Teamwork makes the crazy dream work</strong><span>Crazy Bite anniversary video</span></span></button></li>
+      <li><button class="film" type="button" data-play="dtnRVOqFo1Q" data-title="Glow Perfect · Behind the scenes"><span class="frame"><img src="../assets/img/yt-dtnRVOqFo1Q-s.webp" width="640" height="360" alt="" loading="lazy"></span><span><strong>Shooting Glow Perfect</strong><span>Behind the scenes</span></span></button></li>
+    </ul>
+    <ul class="clients" aria-label="Also on the reel">
+      <li>RC Dental Center</li><li>Allez Pickleball</li><li>SACYHOME</li><li>Scape Cafe</li><li>Bae Naliyagan 2026</li><li>LYVEFEST Davao</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 4 · films -->
+<section class="sec films" id="films" aria-labelledby="films-title">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div style="display:grid;gap:18px">
+        <p class="eyebrow">LNB Films</p>
+        <h2 class="h2" id="films-title">Your wedding day, cut into a film before the night ends.</h2>
+      </div>
+      <p class="lede">"We create beauty in every moment." Weddings and events across Davao and Mati, from the pre-wedding shoot to the same-day edit shown at the reception.</p>
+    </div>
+    <div class="frame films-hero"><img src="../assets/img/films-memory.webp" width="1185" height="780" alt="A bride in a teal dress looks up laughing under a canopy of trees, holding white flowers, from an LNB Films pre-wedding film." loading="lazy"></div>
+    <ul class="book" aria-label="Book LNB Films">
+      <li><h3>Same-day edit</h3><p>Your wedding filmed and edited on the day, ready to play for your guests at the reception.</p><a class="btn btn-main" href="#start" data-crew="films" data-service="Same-day edit">Book a same-day edit</a></li>
+      <li><h3>Pre-wedding film</h3><p>A short, cinematic film of the two of you before the big day.</p><a class="btn btn-main" href="#start" data-crew="films" data-service="Pre-wedding film">Book a pre-wedding film</a></li>
+      <li><h3>Debut film</h3><p>Eighteenth-birthday coverage with a same-day edit, like "Iana at eighteen".</p><a class="btn btn-main" href="#start" data-crew="films" data-service="Debut film">Book a debut film</a></li>
+    </ul>
+    <p class="book-note">Message us your date and venue to check availability.</p>
+    <ul class="couples" aria-label="Recent films">
+      <li>Murphy &amp; Annika</li><li>Benj &amp; Yana</li><li>Scarlley &amp; Ronnel</li><li>Michael &amp; Aika</li><li>Vere &amp; Rea</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 5 · studio -->
+<section class="sec" id="studio" aria-labelledby="studio-title">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div style="display:grid;gap:18px">
+        <p class="eyebrow">LNB Studio</p>
+        <h2 class="h2" id="studio-title">A room in Davao built for portraits.</h2>
+      </div>
+      <p class="lede">A studio designed for creatives, built for expression. Book it for a family portrait, an editorial shoot or a themed set, with LNB behind the camera.</p>
+    </div>
+    <div class="xmas" id="xmas">
+      <h3>A Classic Red Christmas</h3>
+      <div style="display:grid;gap:6px">
+        <p class="when">Nov 5 to Dec 22, 2026</p>
+        <p>Christmas portrait sessions for yourself, your favourite person, your friends or the whole family. Limited slots. Send a message to get the booking link.</p>
+      </div>
+      <a class="btn btn-main" href="#start" data-crew="studio">Ask for the booking link</a>
+    </div>
+    <div class="strip-head">
+      <h3>From the studio</h3>
+      <div class="arrows"><button type="button" data-strip="-1" data-target="studioStrip" aria-label="Previous studio photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-strip="1" data-target="studioStrip" aria-label="Next studio photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <ul class="strip" id="studioStrip" aria-label="LNB Studio photos">
+      <li><div class="frame"><img src="../assets/img/studio-christmas.webp" width="442" height="664" alt="A family of four in front of a red velvet curtain, Christmas tree and wreath, from the 2026 Red Christmas set." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-flower.webp" width="532" height="711" alt="A smiling woman in a white hijab holds a pink gerbera against a pale yellow backdrop." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-hat.webp" width="570" height="711" alt="A young woman in a black wide-brim hat and leather dress poses on a white backdrop." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-swim.webp" width="570" height="711" alt="A triathlete in a swim cap lifts her goggles against a sky-blue backdrop." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-maternity.webp" width="532" height="711" alt="Maternity portrait of a woman cradling her belly against a deep red backdrop." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-veil.webp" width="532" height="711" alt="A woman in a white lace veil and gown, softly lit against black." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-blazer.webp" width="534" height="711" alt="A woman in an oversized black blazer and heels poses against a grey backdrop." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-pets.webp" width="532" height="711" alt="A dog in a blue bandana sits beside an orange cat in a green flower sweater." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/studio-blonde.webp" width="570" height="711" alt="A woman with long platinum hair in a black corset looks over her shoulder." loading="lazy"></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- 6 · we out here -->
+<section class="sec woh" id="woh" aria-labelledby="woh-title">
+  <div class="wrap">
+    <div class="sec-head split">
+      <div style="display:grid;gap:18px">
+        <p class="eyebrow">WeOutHerePH</p>
+        <h2 class="h2" id="woh-title">Ten seasons of nights out in Davao.</h2>
+      </div>
+      <p class="lede">DJ nights, live sets and merch pop-ups in cafés and clubs. LNB Media films the recaps, so the night lives on after it ends.</p>
+    </div>
+    <div class="strip-head">
+      <h3>From the nights</h3>
+      <div class="arrows"><button type="button" data-strip="-1" data-target="wohStrip" aria-label="Previous night photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><button type="button" data-strip="1" data-target="wohStrip" aria-label="Next night photos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <ul class="strip" id="wohStrip" aria-label="WeOutHerePH photos">
+      <li><div class="frame"><img src="../assets/img/woh-otso.webp" width="874" height="491" alt="Black and white street shot of a crowd outside Otso under red 'We belong to the streets' lettering." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-dj-red.webp" width="713" height="889" alt="A DJ in a trucker cap plays under red neon while the crowd behind him dances." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-lounge.webp" width="800" height="800" alt="Two photos side by side: a crowd dancing with drinks, and a DJ in a white shirt at the controller." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-dj-deck.webp" width="713" height="889" alt="A DJ with headphones mixes on a lit controller in a red-lit bar." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-truck.webp" width="848" height="622" alt="A pickup truck parked at night beside a weouthere flag and a graffiti wall, with red 'We belong to the streets' text." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-hearts.webp" width="570" height="711" alt="A DJ in a beanie plays under a strip light, titled Hearts On Beat." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-fire.webp" width="533" height="711" alt="Fire-themed poster for a WeOutHere night at Fiend Coffee Club with DJs Orbit, RossFuego, Delae and Sam Rodriguez." loading="lazy"></div></li>
+      <li><div class="frame"><img src="../assets/img/woh-doves.webp" width="523" height="711" alt="Vintage dove illustration poster for We Out Here at Cavern Coffee on Feb 15." loading="lazy"></div></li>
+    </ul>
+    <p class="venues" aria-label="Venues"><span>Otso</span><span>XCLV Club</span><span>Fiend Coffee Club</span><span>Cavern Coffee</span></p>
+    <p style="margin-top:36px"><a class="btn btn-line" href="https://www.instagram.com/weouthereph/" target="_blank" rel="noopener">See what's next on @weouthereph</a></p>
+  </div>
+</section>
+
+<!-- 7 · pitt -->
+<section class="sec" id="pitt" aria-labelledby="pitt-title">
+  <div class="wrap">
+    <div class="pitt-grid">
+      <div style="display:grid;gap:18px;align-content:start">
+        <p class="eyebrow">The filmmaker</p>
+        <h2 class="h2" id="pitt-title">Filmed by Pitt Delcano.</h2>
+      </div>
+      <div>
+        <p>Pitt Delcano is the filmmaker behind LNB. He shoots and edits much of what you see here himself, from same-day wedding edits to brand commercials.</p>
+        <p>Recent credits include directing Wolbsgvng's "FORZASPEEDTRAP" music video, director of photography and editor on "BISAYA EXCELLENCE", and the LYVEFEST Davao 2026 recap.</p>
+        <a class="link" href="https://www.instagram.com/pittdelcano/" target="_blank" rel="noopener">@pittdelcano on Instagram</a>
+      </div>
+    </div>
+    <div class="mv">
+      <div>
+        <button class="reel" type="button" data-play="mwhrkshJxe4" data-title="Wolbsgvng · FORZASPEEDTRAP (Official Music Video)">
+          <img src="../assets/img/mv-forzaspeedtrap.webp" srcset="../assets/img/mv-forzaspeedtrap-s.webp 640w, ../assets/img/mv-forzaspeedtrap.webp 1280w" sizes="(min-width:900px) 46vw, 94vw" width="1280" height="720" alt="" loading="lazy">
+          <span class="play"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><strong>FORZASPEEDTRAP</strong></span>
+        </button>
+        <p class="credit">Wolbsgvng, "FORZASPEEDTRAP" (official music video, May 2025). <b>Directed by Pitt Delcano.</b></p>
+      </div>
+      <div>
+        <button class="reel" type="button" data-play="8rOMhdpUw40" data-title="Delinquent Society · NAKA BLACK (Official Music Video)">
+          <img src="../assets/img/mv-naka-black.webp" srcset="../assets/img/mv-naka-black-s.webp 640w, ../assets/img/mv-naka-black.webp 1280w" sizes="(min-width:900px) 46vw, 94vw" width="1280" height="720" alt="" loading="lazy">
+          <span class="views">1M+ views on YouTube</span>
+          <span class="play"><span class="dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4v16l14-8z" fill="currentColor"/></svg></span><strong>NAKA BLACK</strong></span>
+        </button>
+        <p class="credit">Delinquent Society, "NAKA BLACK" (official music video, July 2025), past one million views. <b>Shot and edited by Pitt Delcano</b> (LNB Media), directed by Burbankzzz.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 · contact -->
+<section class="sec contact" id="start" aria-labelledby="start-title">
+  <div class="wrap">
+    <h2 class="h2" id="start-title">Start a project.</h2>
+    <p class="lede" style="margin-top:20px">Pick the crew, then send a message. No forms, no prices online: tell us what you're making and when.</p>
+    <fieldset class="pick">
+      <legend>Who is this for?</legend>
+      <div class="crew">
+        <label><input type="radio" name="crew" value="media" checked><strong>LNB Media</strong><span>Brand content, commercials</span></label>
+        <label><input type="radio" name="crew" value="films"><strong>LNB Films</strong><span>Weddings, debuts, events</span></label>
+        <label><input type="radio" name="crew" value="studio"><strong>LNB Studio</strong><span>Portraits, Christmas sets</span></label>
+        <label><input type="radio" name="crew" value="woh"><strong>WeOutHerePH</strong><span>Nights, collabs</span></label>
+      </div>
+    </fieldset>
+    <div class="send">
+      <a class="btn btn-main" id="sendIg" href="https://ig.me/m/lnbmediaph" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.5 7.8L3 21l1.2-4.5A9 9 0 1 1 21 12z"/></svg>Message us</a>
+      <a class="btn btn-line" id="sendMail" href="mailto:lnbmedia23@gmail.com?subject=Project%20inquiry%3A%20LNB%20Media">Email lnbmedia23@gmail.com</a>
+      <p class="to" id="sendTo" aria-live="polite">Goes to @lnbmediaph</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div><span class="mark"><i aria-hidden="true"></i>LNB Studios</span><small>Lens and Beauty · Davao City, Philippines</small></div>
+      <div class="foot-links">
+        <div><h3>LNB Media</h3><a href="https://www.instagram.com/lnbmediaph/" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/lnbmediaph" target="_blank" rel="noopener">Facebook</a><a href="https://www.youtube.com/@LNBMedia" target="_blank" rel="noopener">YouTube</a></div>
+        <div><h3>LNB Films</h3><a href="https://www.instagram.com/lnbfilms/" target="_blank" rel="noopener">Instagram</a></div>
+        <div><h3>LNB Studio</h3><a href="https://www.instagram.com/lnbstudio.ph/" target="_blank" rel="noopener">Instagram</a></div>
+        <div><h3>WeOutHerePH</h3><a href="https://www.instagram.com/weouthereph/" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+    </div>
+    <div class="foot-base">
+      <span>© <span id="yr">2026</span> LNB Studios</span>
+      <a href="https://kendamin.github.io/" target="_blank" rel="noopener">Watermark by Ken Abuda</a>
+    </div>
+  </div>
+</footer>
+
+<dialog class="player" id="player" closedby="any" aria-labelledby="playerTitle">
+  <div class="player-bar">
+    <p id="playerTitle">Film</p>
+    <form method="dialog"><button class="x" aria-label="Close video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+  </div>
+  <div class="player-box" id="playerBox"><p class="loading"><i></i>Loading film…</p></div>
+</dialog>
+
+<dialog class="msg" id="msgDialog" closedby="any" aria-labelledby="msgTitle">
+  <div class="msg-inner">
+    <div class="msg-head">
+      <div><h2 id="msgTitle">Message LNB Media</h2><p id="msgSub">Tell us what you're making and when.</p></div>
+      <form method="dialog"><button class="x" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></form>
+    </div>
+    <a class="btn btn-main" id="msgIg" href="https://ig.me/m/lnbmediaph" target="_blank" rel="noopener">Message @lnbmediaph on Instagram</a>
+    <a class="btn btn-line" id="msgFb" href="https://m.me/lnbmediaph" target="_blank" rel="noopener">Message LNB Media on Messenger</a>
+    <a class="btn btn-line" id="msgMail" href="mailto:lnbmedia23@gmail.com">Email lnbmedia23@gmail.com</a>
+    <div class="msg-note" id="msgNote" hidden>
+      <p>See <strong>"Get the Messenger app"</strong>? Tap <strong>Open in Messenger</strong> below it instead.</p>
+      <small>Still not opening? Tap <strong>•••</strong> and choose <strong>Open in browser</strong>.</small>
+    </div>
+  </div>
+</dialog>
+
+<script src="flow.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const small = matchMedia("(max-width: 760px)").matches;
+  const $ = s => document.querySelector(s);
+  $("#yr").textContent = new Date().getFullYear();
+  if (Date.now() > Date.parse("2026-12-23T00:00:00+08:00")) $("#xmas").hidden = true;
+
+  // nav backing
+  const nav = $("#nav");
+  const bar = () => nav.classList.toggle("is-solid", scrollY > 30);
+  addEventListener("scroll", bar, { passive: true }); bar();
+
+  // ---- 1 · hero: Aperture Drift, seed 82 (fewer lines on phones, paused off-screen, still under reduced motion)
+  const flowCanvas = $("#flow");
+  const flow = LNBFlow.create(flowCanvas, {
+    seed: 82, count: small ? 650 : 2200,
+    lensX: small ? 0.58 : 0.72, lensY: small ? 0.24 : 0.46, lensR: small ? 0.26 : 0.2
+  });
+  if (reduce) flow.still();
+  else {
+    flow.pointer($(".hero"));
+    let onScreen = true;
+    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen && !document.hidden ? flow.start() : flow.stop(); }).observe(flowCanvas);
+    document.addEventListener("visibilitychange", () => document.hidden ? flow.stop() : onScreen && flow.start());
+    flow.start();
+  }
+  let rw = innerWidth;
+  addEventListener("resize", () => { if (Math.abs(innerWidth - rw) < 40) return; rw = innerWidth; flow.size(); flow.set({ seed: 82 }); if (reduce) flow.still(); });
+
+  // ---- 2 · crews: GSAP ScrollTrigger drives the text and the lens shape together
+  const STATES = {
+    media:  { sx: 1.42, sy: 0.84, sz: 0.95, amp: 0.05, freq: 1.20, spike: 0.00, red: 0.25, spin: 0.22 },
+    films:  { sx: 1.80, sy: 0.74, sz: 0.86, amp: 0.06, freq: 1.00, spike: 0.00, red: 0.12, spin: 0.14 },
+    studio: { sx: 0.96, sy: 1.14, sz: 0.98, amp: 0.04, freq: 0.85, spike: 0.00, red: 0.40, spin: 0.10 },
+    woh:    { sx: 1.06, sy: 1.06, sz: 1.06, amp: 0.22, freq: 1.45, spike: 0.05, red: 1.00, spin: 0.35 }
+  };
+  const lensState = Object.assign({}, STATES.media);
+  const html = document.documentElement;
+  if (html.classList.contains("lens-mode")) {
+    if (!window.gsap || !window.ScrollTrigger) html.classList.remove("lens-mode");
+    else {
+      gsap.registerPlugin(ScrollTrigger);
+      const steps = gsap.utils.toArray(".crew-step");
+      const tabs = [...document.querySelectorAll(".crew-tabs button")];
+      const keys = steps.map(s => s.dataset.state);
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.inOut" },
+        scrollTrigger: {
+          trigger: "#crews", start: "top top", end: "bottom bottom", scrub: 0.6,
+          onUpdate: self => {
+            const i = Math.min(3, Math.round(self.progress * 3));
+            tabs.forEach((t, n) => t.setAttribute("aria-current", n === i ? "true" : "false"));
+          }
+        }
+      });
+      for (let i = 1; i < steps.length; i++) {
+        const at = i - 1;
+        tl.to(lensState, Object.assign({ duration: 1 }, STATES[keys[i]]), at)
+          .to(steps[i - 1], { autoAlpha: 0, y: -20, duration: 0.3 }, at + 0.35)
+          .fromTo(steps[i], { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.3 }, at + 0.6);
+      }
+      tabs.forEach(t => t.addEventListener("click", () => {
+        const st = tl.scrollTrigger, i = +t.dataset.step;
+        scrollTo({ top: st.start + (st.end - st.start) * (i / 3) + 2, behavior: "smooth" });
+      }));
+      // the crews' nav links skip past the pinned section to their chapters, so nothing else needs refreshing
+      addEventListener("load", () => ScrollTrigger.refresh());
+
+      // Three.js is ~170 KB: load it after the page is up
+      const loadLens = () => import("./lens.js")
+        .then(m => { m.createLens($("#lens"), lensState); })
+        .catch(() => { html.classList.add("no-gl"); });
+      const go = () => ("requestIdleCallback" in window ? requestIdleCallback(loadLens, { timeout: 2000 }) : setTimeout(loadLens, 600));
+      document.readyState === "complete" ? go() : addEventListener("load", go);
+    }
+  }
+
+  // ---- photo strips
+  document.querySelectorAll("[data-strip]").forEach(b => b.addEventListener("click", () => {
+    const s = document.getElementById(b.dataset.target);
+    s.scrollBy({ left: s.clientWidth * 0.85 * +b.dataset.strip, behavior: reduce ? "auto" : "smooth" });
+  }));
+
+  // ---- YouTube player: the iframe only loads when someone presses play
+  const player = $("#player"), box = $("#playerBox");
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-play]");
+    if (!b) return;
+    $("#playerTitle").textContent = b.dataset.title;
+    box.innerHTML = '<p class="loading"><i></i>Loading film…</p>';
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${b.dataset.play}?autoplay=1&rel=0&playsinline=1`;
+    f.title = b.dataset.title;
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    f.style.opacity = 0;
+    f.addEventListener("load", () => { f.style.opacity = 1; box.querySelector(".loading")?.remove(); });
+    box.appendChild(f);
+    player.showModal();
+  });
+  player.addEventListener("close", () => { box.innerHTML = ""; });
+
+  // ---- contact: pick a crew, the message goes to that crew's account
+  const CREWS = {
+    media:  { name: "LNB Media",   ig: "lnbmediaph",   sub: "Commercials, product videos, campaigns, recaps.", fb: "lnbmediaph" },
+    films:  { name: "LNB Films",   ig: "lnbfilms",     sub: "Weddings, pre-wedding films, debuts and events." },
+    studio: { name: "LNB Studio",  ig: "lnbstudio.ph", sub: "Portrait sessions and Christmas set bookings." },
+    woh:    { name: "WeOutHerePH", ig: "weouthereph",  sub: "Nights, collabs and community events." }
+  };
+  let crew = "media", service = "";
+  const subject = () => "Project inquiry: " + CREWS[crew].name + (service ? ", " + service : "");
+  function setCrew(key, svc = "") {
+    crew = key; service = svc; const c = CREWS[key];
+    $("#sendIg").href = `https://ig.me/m/${c.ig}`;
+    $("#sendMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent(subject())}`;
+    $("#sendTo").textContent = `Goes to @${c.ig}` + (svc ? ` · about a ${svc.toLowerCase()}` : "");
+  }
+  document.querySelectorAll('input[name="crew"]').forEach(r => r.addEventListener("change", () => setCrew(r.value)));
+  document.querySelectorAll("a[data-crew]").forEach(a => a.addEventListener("click", () => {
+    document.querySelector(`input[name="crew"][value="${a.dataset.crew}"]`).checked = true;
+    setCrew(a.dataset.crew, a.dataset.service || "");
+  }));
+
+  // ---- Message chooser (Instagram / Messenger links open it first; without JS the plain links still work)
+  const msg = $("#msgDialog");
+  if (/FBAN|FBAV|FB_IAB|FBIOS|Messenger|Instagram/i.test(navigator.userAgent)) $("#msgNote").hidden = false;
+  document.addEventListener("click", e => {
+    const a = e.target.closest('a[href^="https://ig.me/"], a[href^="https://m.me/"]');
+    if (!a || msg.contains(a)) return;
+    e.preventDefault();
+    const c = CREWS[crew];
+    $("#msgTitle").textContent = `Message ${c.name}`;
+    $("#msgSub").textContent = c.sub;
+    $("#msgIg").href = `https://ig.me/m/${c.ig}`;
+    $("#msgIg").textContent = `Message @${c.ig} on Instagram`;
+    $("#msgFb").hidden = !c.fb;                       // Messenger only exists for LNB Media
+    $("#msgMail").href = `mailto:lnbmedia23@gmail.com?subject=${encodeURIComponent(subject())}`;
+    msg.showModal();
+    $("#msgIg").focus();
+  });
+  const lightDismiss = d => {
+    if ("closedBy" in HTMLDialogElement.prototype) return;
+    let down = false;
+    const out = e => { const r = d.getBoundingClientRect(); return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom; };
+    d.addEventListener("pointerdown", e => { down = out(e); });
+    d.addEventListener("pointerup", e => { if (down && out(e)) d.close(); });
+  };
+  lightDismiss(msg); lightDismiss(player);
+})();
+</script>
+</body>
+</html>
