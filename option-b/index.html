@@ -128,8 +128,7 @@ p{margin:0;text-wrap:pretty}
 .lens-mode .crew-step .photo img{aspect-ratio:auto;height:clamp(130px,26svh,236px);object-fit:cover}
 .lens-mode .crews-visual{display:block;position:relative;height:min(78svh,720px)}
 /* the turntable: 96 real frames of the camera, scrubbed by scroll; the edges melt into the page and its particles */
-.crews-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block;
-  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 58%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 52%,#000 58%,transparent 100%)}
+.crews-visual canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 @media (max-width:899px){
   .lens-mode .crews-grid{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:4px;padding-top:76px;align-content:start}
   .lens-mode .crews-visual{order:-1;height:27svh}
@@ -681,10 +680,23 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
       if (i === shown && !force) return;
       const im = pick(i); if (!im) return;
       shown = i;
-      const W = canvas.width, H = canvas.height, s = Math.min(W / im.naturalWidth, H / im.naturalHeight) * 1.08;
-      const w = im.naturalWidth * s, h = im.naturalHeight * s;
-      ctx.fillStyle = "#121110"; ctx.fillRect(0, 0, W, H);
-      ctx.drawImage(im, (W - w) / 2, (H - h) / 2, w, h);
+      const W = canvas.width, H = canvas.height, s = Math.min(W / im.naturalWidth, H / im.naturalHeight);
+      const w = im.naturalWidth * s, h = im.naturalHeight * s, x = (W - w) / 2, y = (H - h) / 2;
+      ctx.globalCompositeOperation = "source-over";
+      ctx.clearRect(0, 0, W, H);
+      ctx.drawImage(im, x, y, w, h);
+      // lift the footage's black to the page's own ground so there is no darker box
+      ctx.globalCompositeOperation = "lighten";
+      ctx.fillStyle = "#121110"; ctx.fillRect(x, y, w, h);
+      // feather all four edges inside the frame so it melts into the particle field
+      ctx.globalCompositeOperation = "destination-in";
+      const fx = ctx.createLinearGradient(x, 0, x + w, 0);
+      fx.addColorStop(0, "rgba(0,0,0,0)"); fx.addColorStop(0.14, "#000"); fx.addColorStop(0.86, "#000"); fx.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = fx; ctx.fillRect(x, y, w, h);
+      const fy = ctx.createLinearGradient(0, y, 0, y + h);
+      fy.addColorStop(0, "rgba(0,0,0,0)"); fy.addColorStop(0.2, "#000"); fy.addColorStop(0.8, "#000"); fy.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = fy; ctx.fillRect(x, y, w, h);
+      ctx.globalCompositeOperation = "source-over";
     }
     // ease toward the scroll's frame so the turn feels like a smooth turntable, not a flip-book
     function tick() { cur += (lensState.frame - cur) * 0.18; if (Math.abs(lensState.frame - cur) < 0.02) cur = lensState.frame; draw(); raf = Math.abs(lensState.frame - cur) > 0.02 ? requestAnimationFrame(tick) : 0; }
