@@ -60,7 +60,7 @@ void main(){
   vec3 sky = mix(vec3(0.93,0.9,0.86), vec3(0.6,0.52,0.46), 0.5-0.5*N.y);
   vec3 coat = mix(vec3(0.86,0.6,0.42), vec3(0.86,0.2,0.12), uRed);
   vec3 col = glass + sky*0.10*(0.5+0.5*N.y);
-  col += coat * fres * 0.95 + sky * pow(1.0-ndv,5.0) * 0.35;
+  col += coat * fres * 1.35 + sky * pow(1.0-ndv,4.0) * 0.55;
   col += vec3(1.0,0.97,0.92) * spec * 0.95 + coat * spec2 * 0.35;
   gl_FragColor = vec4(col,1.0);
 }`;

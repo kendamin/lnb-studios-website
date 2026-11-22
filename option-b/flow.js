@@ -46,11 +46,11 @@
     seed: 82,
     count: 2200,
     speed: 1,
-    ground: "#EEE7DC",
-    ink: "21,18,15",
-    red: "210,50,31",
+    ground: "#121110",
+    ink: "238,233,225",
+    red: "227,52,42",
     redShare: 0.07,
-    inkAlpha: 0.44,
+    inkAlpha: 0.42,
     lensX: 0.7, lensY: 0.44, lensR: 0.2, // fractions of width / height / min side
     fade: 0.06
   };
