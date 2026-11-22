@@ -16,6 +16,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,400&display=swap" rel="stylesheet">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script>
   // lens mode: the pinned 3D crews section, only when motion is allowed
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("lens-mode");
@@ -121,6 +122,7 @@ p{margin:0;text-wrap:pretty}
 .lens-mode .crews-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;height:100%;padding-top:68px}
 .lens-mode .crews-copy{display:grid;gap:28px;align-content:center}
 .lens-mode .crew-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.lens-mode .crews-head .h2{font-size:clamp(36px,4.2vw,64px)}
 .crew-tabs button{font:600 14px/1 var(--font);padding:10px 14px;min-height:40px;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--ink-2);cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
 .crew-tabs button:hover{border-color:var(--ink);color:var(--ink)}
 .crew-tabs button[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--sand)}
@@ -335,7 +337,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
       <div class="crews-copy">
         <div class="crews-head">
           <p class="eyebrow">Four crews</p>
-          <h2 class="h2" id="crews-title">Four kinds of work, one lens.</h2>
+          <h2 class="h2" id="crews-title">Four kinds of work, one camera.</h2>
         </div>
         <div class="crew-tabs" role="group" aria-label="Jump to a crew">
           <button type="button" data-step="0" aria-current="true">Media</button>
@@ -625,13 +627,15 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
   addEventListener("resize", () => { if (Math.abs(innerWidth - rw) < 40) return; rw = innerWidth; flow.size(); flow.set({ seed: 82 }); if (reduce) flow.still(); });
 
   // ---- 2 · crews: GSAP ScrollTrigger drives the text and the lens shape together
+  // camera poses per crew (rotation, lens zoom, REC light); camera.js reads the same object
   const STATES = {
-    media:  { sx: 1.42, sy: 0.84, sz: 0.95, amp: 0.05, freq: 1.20, spike: 0.00, red: 0.25, spin: 0.22 },
-    films:  { sx: 1.80, sy: 0.74, sz: 0.86, amp: 0.06, freq: 1.00, spike: 0.00, red: 0.12, spin: 0.14 },
-    studio: { sx: 0.96, sy: 1.14, sz: 0.98, amp: 0.04, freq: 0.85, spike: 0.00, red: 0.40, spin: 0.10 },
-    woh:    { sx: 1.06, sy: 1.06, sz: 1.06, amp: 0.22, freq: 1.45, spike: 0.05, red: 1.00, spin: 0.35 }
+    media:  { ry: -2.45, rx: 0.20, lens: 1.00, rec: 0 },
+    films:  { ry: -1.42, rx: 0.06, lens: 1.75, rec: 0 },
+    studio: { ry:  0.55, rx: 0.14, lens: 0.72, rec: 0 },
+    woh:    { ry:  2.70, rx: 0.22, lens: 1.00, rec: 1 }
   };
   const lensState = Object.assign({}, STATES.media);
+  let rig3d = null;
   const html = document.documentElement;
   if (html.classList.contains("lens-mode")) {
     if (!window.gsap || !window.ScrollTrigger) html.classList.remove("lens-mode");
@@ -647,6 +651,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
           onUpdate: self => {
             const i = Math.min(3, Math.round(self.progress * 3));
             tabs.forEach((t, n) => t.setAttribute("aria-current", n === i ? "true" : "false"));
+            if (rig3d) rig3d.setScreen(i);
           }
         }
       });
@@ -664,8 +669,8 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
       addEventListener("load", () => ScrollTrigger.refresh());
 
       // Three.js is ~170 KB: load it after the page is up
-      const loadLens = () => import("./lens.js")
-        .then(m => { m.createLens($("#lens"), lensState); })
+      const loadLens = () => import("./camera.js")
+        .then(m => { rig3d = m.createCamera($("#lens"), lensState); })
         .catch(() => { html.classList.add("no-gl"); });
       const go = () => ("requestIdleCallback" in window ? requestIdleCallback(loadLens, { timeout: 2000 }) : setTimeout(loadLens, 600));
       document.readyState === "complete" ? go() : addEventListener("load", go);
