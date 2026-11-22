@@ -175,5 +175,137 @@
     };
   }
 
-  window.LNBFlow = { create };
+  /*
+    page(canvas, opts): ONE continuous field for the whole page.
+    A fixed, viewport-sized canvas behind everything. The noise is sampled in page coordinates,
+    so the current runs unbroken from section to section and the trails scroll with the page.
+    The canvas also paints each section's ground (opts.bands), so a light section keeps its
+    colour and gets dark ink lines, and night sections get more red.
+      opts.bands()  -> [{ top, bottom, ground, ink, alpha, red }]   (page coordinates)
+      opts.lenses(scrollY, W, H) -> [{ x, y, r }]                  (page coordinates)
+  */
+  function page(canvas, opts) {
+    const o = Object.assign({}, DEFAULTS, { fade: 0.06 }, opts || {});
+    const ctx = canvas.getContext("2d", { alpha: false });
+    let W = 0, H = 0, dpr = 1, raf = 0, running = false, t = 0, frameN = 0, lastSy = 0;
+    let rand = rng(o.seed), noise = makeNoise(rng(o.seed * 7919 + 13)), parts = [], bands = [];
+    const mouse = { x: -9999, y: -9999, on: false };
+    const DEF = { ground: o.ground, ink: o.ink, alpha: o.inkAlpha, red: o.redShare };
+
+    const bandAt = py => { for (let i = 0; i < bands.length; i++) if (py < bands[i].bottom) return bands[i]; return bands[bands.length - 1] || DEF; };
+    // paint the grounds of everything between viewport rows y0..y1 at the given opacity
+    function paint(y0, y1, a) {
+      const sy = lastSy;
+      ctx.globalAlpha = a;
+      if (a >= 1) { ctx.fillStyle = o.ground; ctx.fillRect(0, y0, W, y1 - y0); }
+      for (const b of bands) {
+        const top = Math.max(y0, b.top - sy), bot = Math.min(y1, b.bottom - sy);
+        if (bot > top) { ctx.fillStyle = b.ground; ctx.fillRect(0, top, W, bot - top); }
+      }
+      if (!bands.length) { ctx.fillStyle = o.ground; ctx.fillRect(0, y0, W, y1 - y0); }
+      ctx.globalAlpha = 1;
+    }
+    function spawn(q) {
+      q.x = rand() * W; q.y = rand() * H;
+      q.life = 60 + rand() * 220;
+      q.red = rand(); // compared against each band's red share
+      return q;
+    }
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, o.maxDpr || 1.25);
+      W = canvas.clientWidth || innerWidth; H = canvas.clientHeight || innerHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      lastSy = window.scrollY;
+      bands = o.bands ? o.bands() : [];
+      paint(0, H, 1);
+      parts = []; for (let i = 0; i < o.count; i++) parts.push(spawn({}));
+    }
+
+    // keep the trails glued to the page while it scrolls
+    function follow() {
+      const sy = window.scrollY, dy = sy - lastSy;
+      if (!dy) return;
+      if (Math.abs(dy) >= H * 0.9) { lastSy = sy; paint(0, H, 1); parts.forEach(spawn); return; }
+      ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.globalCompositeOperation = "copy";
+      ctx.drawImage(canvas, 0, Math.round(-dy * dpr));
+      ctx.restore();
+      lastSy = sy;
+      if (dy > 0) paint(H - dy - 1, H, 1); else paint(0, -dy + 1, 1);
+      for (const q of parts) { q.y -= dy; if (q.y < -10 || q.y > H + 10) { spawn(q); } }
+    }
+
+    function step() {
+      const sy = lastSy, scale = 0.0021, sp = 1.15 * o.speed;
+      t += 0.0016 * o.speed;
+      frameN++;
+      paint(0, H, frameN % 40 === 0 ? Math.min(1, o.fade * 3) : o.fade);
+      const lenses = o.lenses ? o.lenses(sy, W, H) : [];
+      const paths = new Map();
+      const pathFor = key => { let p = paths.get(key); if (!p) { p = new Path2D(); paths.set(key, p); } return p; };
+      for (let i = 0; i < parts.length; i++) {
+        const q = parts[i], py = q.y + sy;
+        const a = noise(q.x * scale, py * scale, t) * Math.PI * 4;
+        let vx = Math.cos(a), vy = Math.sin(a), near = false;
+        for (const L of lenses) {
+          const dx = q.x - L.x, dyy = py - L.y, d = Math.hypot(dx, dyy) || 1;
+          if (d < L.r * 1.9) {
+            const k = Math.max(0, 1 - Math.abs(d - L.r) / (L.r * 0.9)), s = d < L.r ? -1 : 1;
+            vx += (-dyy / d) * 1.6 * k - (dx / d) * 0.35 * s * k;
+            vy += (dx / d) * 1.6 * k - (dyy / d) * 0.35 * s * k;
+            if (d < L.r * 1.6) near = true;
+          }
+        }
+        if (mouse.on) {
+          const mx = q.x - mouse.x, my = q.y - mouse.y, md = Math.hypot(mx, my);
+          if (md < 150 && md > 0.01) { const f = (1 - md / 150) * 3.2; vx += (mx / md) * f; vy += (my / md) * f; }
+        }
+        const nx = q.x + vx * sp, ny = q.y + vy * sp;
+        const b = bandAt(py);
+        const isRed = q.red < (near ? Math.max(b.red, 0.12) : b.red * 0.35);
+        const key = isRed ? "r" : b.ink + "|" + b.alpha;
+        const p = pathFor(key); p.moveTo(q.x, q.y); p.lineTo(nx, ny);
+        q.x = nx; q.y = ny; q.life -= 1;
+        if (q.life <= 0 || nx < -10 || ny < -10 || nx > W + 10 || ny > H + 10) spawn(q);
+      }
+      for (const [key, p] of paths) {
+        if (key === "r") { ctx.lineWidth = 1.1; ctx.strokeStyle = `rgba(${o.red},.72)`; }
+        else { const [ink, al] = key.split("|"); ctx.lineWidth = 0.7; ctx.strokeStyle = `rgba(${ink},${al})`; }
+        ctx.stroke(p);
+      }
+    }
+
+    let last = 0, acc = 0;
+    function loop(now) {
+      if (!running) return;
+      follow();
+      acc += last ? Math.min(100, now - last) : 16.67;
+      last = now;
+      let n = 0;
+      while (acc >= 16.67 && n < 3) { step(); acc -= 16.67; n++; }
+      if (n === 3) acc = 0;
+      raf = requestAnimationFrame(loop);
+    }
+    function start() { if (running) return; running = true; last = 0; raf = requestAnimationFrame(loop); }
+    function stop() { running = false; cancelAnimationFrame(raf); }
+    // reduced motion: a finished still of the current view, redrawn after scrolling stops
+    function still() {
+      lastSy = window.scrollY; paint(0, H, 1); parts.forEach(spawn);
+      const f = o.fade; o.fade = 0.03;
+      for (let i = 0; i < 150; i++) step();
+      o.fade = f;
+    }
+
+    addEventListener("pointermove", e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = e.pointerType === "mouse"; }, { passive: true });
+    document.addEventListener("pointerleave", () => { mouse.on = false; });
+    size();
+    return {
+      start, stop, still,
+      size() { size(); },
+      refresh() { bands = o.bands ? o.bands() : []; }
+    };
+  }
+
+  window.LNBFlow = { create, page };
 })();

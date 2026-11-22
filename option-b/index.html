@@ -84,16 +84,12 @@ p{margin:0;text-wrap:pretty}
 
 /* ---------- 1 · hero: generative "Aperture Drift" ground ---------- */
 .hero{position:relative;min-height:100svh;display:grid;align-items:end;overflow:clip;isolation:isolate}
-.hero canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-2;display:block}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:linear-gradient(90deg,var(--sand) 0%,rgba(18,17,16,.9) 30%,rgba(18,17,16,.5) 52%,rgba(18,17,16,0) 70%)}
 .hero-inner{padding-block:120px clamp(40px,7vh,80px);display:grid;gap:28px}
 .hero h1{font-size:clamp(46px,6.6vw,108px);font-weight:600;letter-spacing:-.045em;line-height:.96;max-width:12.5ch}
 .hero h1 em{font-style:italic;font-weight:400}
 .hero .lede{max-width:46ch;color:#C9C1B6}
 .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
 @media (max-width:760px){
-  .hero::before{background:linear-gradient(0deg,var(--sand) 0%,rgba(18,17,16,.94) 42%,rgba(18,17,16,.4) 62%,rgba(18,17,16,0) 78%)}
   .hero-inner{padding-top:52svh}
   .hero-actions .btn{flex:1 1 100%}
 }
@@ -148,10 +144,10 @@ p{margin:0;text-wrap:pretty}
   .lens-mode .crew-step p{font-size:16px}
 }
 
-/* ---------- flowing lines behind every section (same Aperture Drift field, its own seed each) ---------- */
-.sec,.crews-stage{position:relative;isolation:isolate}
-.sec{overflow:clip}
-.fx{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;display:block}
+/* ---------- one continuous particle field for the whole page (fixed canvas, paints every section's ground) ---------- */
+#field{position:fixed;inset:0;width:100%;height:100lvh;z-index:-1;pointer-events:none;display:none}
+.fx-on #field{display:block}
+.fx-on .hero,.fx-on .crews,.fx-on .films,.fx-on .woh,.fx-on .contact,.fx-on footer{background:transparent}
 
 /* ---------- section scaffolding ---------- */
 .sec{padding-block:clamp(88px,11vw,160px)}
@@ -307,6 +303,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 </head>
 <body>
 <!-- Option B · palette: LNB black, bone, REC red · hero: generative flow field (seed 82) · moment: pinned 3D lens per crew · night band: WeOutHerePH -->
+<canvas id="field" aria-hidden="true"></canvas>
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="nav" id="nav">
@@ -323,7 +320,6 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 1 · hero -->
 <section class="hero" id="top" aria-labelledby="h1">
-  <canvas id="flow" aria-hidden="true"></canvas>
   <div class="wrap hero-inner">
     <p class="eyebrow enter">LNB Studios · Lens and Beauty · Davao City</p>
     <h1 id="h1" class="enter">Brand films, weddings and portraits, <em>shot in Davao.</em></h1>
@@ -338,7 +334,6 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 <!-- 2 · four crews, one lens -->
 <section class="crews" id="crews" aria-labelledby="crews-title">
   <div class="crews-stage">
-    <canvas class="fx" aria-hidden="true"></canvas>
     <div class="wrap crews-grid">
       <div class="crews-copy">
         <div class="crews-head">
@@ -385,7 +380,6 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 3 · media -->
 <section class="sec" id="media" aria-labelledby="media-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -414,8 +408,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 </section>
 
 <!-- 4 · films -->
-<section class="sec films" id="films" aria-labelledby="films-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
+<section class="sec films" id="films" data-fx="paper" aria-labelledby="films-title">
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -439,7 +432,6 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 5 · studio -->
 <section class="sec" id="studio" aria-labelledby="studio-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -475,8 +467,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 </section>
 
 <!-- 6 · we out here -->
-<section class="sec woh" id="woh" aria-labelledby="woh-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
+<section class="sec woh" id="woh" data-fx="night" aria-labelledby="woh-title">
   <div class="wrap">
     <div class="sec-head split">
       <div style="display:grid;gap:18px">
@@ -506,7 +497,6 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 
 <!-- 7 · pitt -->
 <section class="sec" id="pitt" aria-labelledby="pitt-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="pitt-grid">
       <div style="display:grid;gap:18px;align-content:start">
@@ -540,8 +530,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 </section>
 
 <!-- 8 · contact -->
-<section class="sec contact" id="start" aria-labelledby="start-title">
-  <canvas class="fx" aria-hidden="true"></canvas>
+<section class="sec contact" id="start" data-fx="night" aria-labelledby="start-title">
   <div class="wrap">
     <h2 class="h2" id="start-title">Start a project.</h2>
     <p class="lede" style="margin-top:20px">Pick the crew, then send a message. No forms, no prices online: tell us what you're making and when.</p>
@@ -563,7 +552,7 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
 </section>
 </main>
 
-<footer>
+<footer data-fx="night">
   <div class="wrap">
     <div class="foot">
       <div><span class="mark"><i aria-hidden="true"></i>LNB Studios</span><small>Lens and Beauty · Davao City, Philippines</small></div>
@@ -621,56 +610,49 @@ dialog::backdrop{background:rgba(0,0,0,.8)}
   const bar = () => nav.classList.toggle("is-solid", scrollY > 30);
   addEventListener("scroll", bar, { passive: true }); bar();
 
-  // ---- 1 · hero: Aperture Drift, seed 82 (fewer lines on phones, paused off-screen, still under reduced motion)
-  const flowCanvas = $("#flow");
-  const flow = LNBFlow.create(flowCanvas, {
-    seed: 82, count: small ? 650 : 2200,
-    lensX: small ? 0.58 : 0.72, lensY: small ? 0.24 : 0.46, lensR: small ? 0.26 : 0.2
-  });
-  if (reduce) flow.still();
-  else {
-    flow.pointer($(".hero"));
-    let onScreen = true;
-    new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; onScreen && !document.hidden ? flow.start() : flow.stop(); }).observe(flowCanvas);
-    document.addEventListener("visibilitychange", () => document.hidden ? flow.stop() : onScreen && flow.start());
-    flow.start();
-  }
-  // ---- the same flowing lines behind every section: created when a section comes near, animated only while on screen
-  const FX = {
-    crews:  { seed: 7,  lensX: small ? 0.5 : 0.74, lensY: small ? 0.24 : 0.52, lensR: small ? 0.3 : 0.24 },
-    media:  { seed: 23, lensX: 0.8, lensY: 0.16 },
-    films:  { seed: 61, lensX: 0.62, lensY: 0.14, ground: "#ECE6DC", ink: "18,17,16", inkAlpha: 0.3, redShare: 0.06 },
-    studio: { seed: 34, lensX: 0.62, lensY: 0.12 },
-    woh:    { seed: 99, lensX: 0.7, lensY: 0.16, ground: "#080707", redShare: 0.22 },
-    pitt:   { seed: 12, lensX: 0.86, lensY: 0.22 },
-    start:  { seed: 82, lensX: 0.76, lensY: 0.36, ground: "#080707" }
+  // ---- one continuous Aperture Drift field (seed 82) under the whole page: the current runs unbroken from
+  // section to section. Fewer lines on phones, paused when the tab is hidden, a still under reduced motion.
+  const GROUNDS = {
+    base:  { ground: "#121110", ink: "238,233,225", alpha: 0.42, red: 0.07 },
+    paper: { ground: "#ECE6DC", ink: "18,17,16",    alpha: 0.26, red: 0.05 },
+    night: { ground: "#080707", ink: "238,233,225", alpha: 0.4,  red: 0.22 }
   };
-  document.querySelectorAll("canvas.fx").forEach(cv => {
-    const sec = cv.closest("section"), cfg = FX[sec.id];
-    let f = null, on = false, lastW = 0, lastH = 0;
-    // same line density as the hero, whatever the section's height (capped for phones)
-    const count = () => Math.round(Math.min(small ? 1500 : 4200, (cv.clientWidth * cv.clientHeight) / (small ? 390 * 844 : 1440 * 900) * (small ? 650 : 2200)));
-    const make = () => {
-      f = LNBFlow.create(cv, Object.assign({ count: count(), inkAlpha: 0.42, lensR: 0.2, maxDpr: 1 }, cfg));
-      lastW = cv.clientWidth; lastH = cv.clientHeight;
-      if (reduce) f.still(); else f.pointer(sec);
-    };
-    new IntersectionObserver(([e]) => {
-      on = e.isIntersecting;
-      if (on && !f) make();
-      if (f && !reduce) (on && !document.hidden ? f.start() : f.stop());
-    }, { rootMargin: "120px 0px" }).observe(cv);
-    document.addEventListener("visibilitychange", () => { if (f && !reduce) (document.hidden ? f.stop() : on && f.start()); });
-    // sections grow as photos load: redraw at the new size
-    new ResizeObserver(() => {
-      if (!f || (Math.abs(cv.clientWidth - lastW) < 40 && Math.abs(cv.clientHeight - lastH) < 40)) return;
-      lastW = cv.clientWidth; lastH = cv.clientHeight;
-      f.size(); f.set({ seed: cfg.seed, count: count() }); if (reduce) f.still();
-    }).observe(cv);
+  const bandEls = [...document.querySelectorAll("main > section, footer")];
+  const heroEl = $(".hero"), crewsEl = $("#crews"), startEl = $("#start");
+  const pageTop = el => el.getBoundingClientRect().top + scrollY;
+  document.documentElement.classList.add("fx-on");   // show the canvas before it is measured
+  const field = LNBFlow.page($("#field"), {
+    seed: 82, count: small ? 750 : 2400, maxDpr: small ? 1.25 : 1.25,
+    bands: () => bandEls.map(el => { const t = pageTop(el); return Object.assign({ top: t, bottom: t + el.offsetHeight }, GROUNDS[el.dataset.fx || "base"]); }),
+    lenses: (sy, W, H) => {
+      const L = [];
+      const ht = heroEl.offsetTop, hh = heroEl.offsetHeight;
+      L.push({ x: W * (small ? 0.58 : 0.72), y: ht + hh * (small ? 0.24 : 0.46), r: Math.min(W, H) * (small ? 0.26 : 0.2) });
+      // the current wraps around the 3D camera while the crews section is pinned
+      const ct = crewsEl.offsetTop, cb = ct + crewsEl.offsetHeight;
+      if (sy + H > ct && sy < cb) {
+        const cy = Math.min(Math.max(sy, ct), cb - H);
+        L.push({ x: W * (small ? 0.5 : 0.74), y: cy + H * (small ? 0.26 : 0.52), r: Math.min(W, H) * (small ? 0.28 : 0.24) });
+      }
+      L.push({ x: W * 0.76, y: startEl.offsetTop + startEl.offsetHeight * 0.36, r: Math.min(W, H) * 0.18 });
+      return L;
+    }
   });
-
-  let rw = innerWidth;
-  addEventListener("resize", () => { if (Math.abs(innerWidth - rw) < 40) return; rw = innerWidth; flow.size(); flow.set({ seed: 82 }); if (reduce) flow.still(); });
+  if (reduce) {
+    field.still();
+    let tid = 0;
+    addEventListener("scroll", () => { clearTimeout(tid); tid = setTimeout(() => field.still(), 160); }, { passive: true });
+  } else {
+    document.addEventListener("visibilitychange", () => document.hidden ? field.stop() : field.start());
+    field.start();
+  }
+  // sections grow as photos load: keep the painted grounds in step with the page
+  new ResizeObserver(() => field.refresh()).observe(document.body);
+  let rw = innerWidth, rh = innerHeight;
+  addEventListener("resize", () => {
+    if (Math.abs(innerWidth - rw) < 2 && Math.abs(innerHeight - rh) < 120) return;
+    rw = innerWidth; rh = innerHeight; field.size(); if (reduce) field.still();
+  });
 
   // ---- 2 · crews: GSAP ScrollTrigger drives the text and the lens shape together
   // camera poses per crew (rotation, lens zoom, REC light); camera.js reads the same object
